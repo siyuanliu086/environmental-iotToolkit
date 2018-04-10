@@ -61,7 +61,7 @@ public class IOTCheckImpl implements IOTCheck{
             String deviceId = monitorMinData.getDeviceId();
             // 检查设备号
             if(!checkDevieId(deviceId)) {
-                return RE_PROTOCOL212_OTHER_ERR;
+                return RE_MN_ERR;
             }
             if(Integer.valueOf(IProcessing.AIR_MONITOR_MONITOR_212) == type) {
                 // 输出大气监测因子+气象五参
