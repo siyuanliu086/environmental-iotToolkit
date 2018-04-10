@@ -29,6 +29,7 @@ public class Controller {
     private String configFilePath, server, port;
     private String[] deviceIdArr;
     private int sendCycle = 10;//默认10分钟
+    private int autoFullFactor = 0;//默认补全全部因子
     private JSONObject styleJO;
     
     public static Controller instance;
@@ -94,6 +95,7 @@ public class Controller {
     private void deviceSend(IDeviceData deviceData) {
         for(String deviceId : deviceIdArr) {
             deviceData.setDeviceId(deviceId);
+            deviceData.setAutoFullFactor(autoFullFactor == 1);
             deviceData.setFactorStyle(styleJO);
             try {
                 String mess = SenderClient.startSocketClient(deviceData);
@@ -125,14 +127,23 @@ public class Controller {
             callbackTitle(title);
             
             // 周期
-            String cycle = configJO.getString("cycle");
-            if(!StringUtil.isEmptyString(cycle)) {
+            if(configJO.containsKey("cycle")) {
                 try {
-                    sendCycle = Integer.valueOf(cycle);
-                } catch (NumberFormatException e) {
+                    sendCycle = configJO.getIntValue("cycle");
+                } catch (Exception e) {
                     e.printStackTrace();
                     sendCycle = 10;
                 }
+            }
+            
+            // 补全全部因子 auto_full_factor 
+            if(configJO.containsKey("auto_full_factor")) {
+                try {
+                    autoFullFactor = configJO.getIntValue("auto_full_factor");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                autoFullFactor = 0;
             }
             
             // 因子
