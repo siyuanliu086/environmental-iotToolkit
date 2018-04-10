@@ -31,4 +31,5 @@ public interface IDeviceData {
     
     void setDeviceId(String deviceId);
     void setFactorStyle(JSONObject jo);
+    void setAutoFullFactor(boolean b);
 }

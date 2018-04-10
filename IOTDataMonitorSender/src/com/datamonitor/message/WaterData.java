@@ -196,5 +196,10 @@ public class WaterData implements IDeviceData {
     public void setFactorStyle(JSONObject jo) {
         factorStyle = jo;
     }
+    private boolean fullFactor;
+    @Override
+    public void setAutoFullFactor(boolean b) {
+        fullFactor = b;
+    }
 }
 

@@ -15,6 +15,8 @@ public class DeviceData implements IDeviceData{
     
     private String message;
     
+    private boolean fullFactor;
+    
     public DeviceData(String server, String port) {
         this.server = server;
         this.port = port;
@@ -70,85 +72,95 @@ public class DeviceData implements IDeviceData{
         String WS = "";
         String PA = "";
         String TSP = "";
-        if(factorStyle != null) {
-            if(factorStyle.containsKey("co")) {
-                float co_ = factorStyle.getFloatValue("co");
-                int co_err = factorStyle.getInteger("co_err");
-                CO = getRateValue(random, co_);
-            }
-            if(factorStyle.containsKey("no2")) {
-                float no2_ = factorStyle.getFloatValue("no2");
-                int no2_err = factorStyle.containsKey("no2_err") ? factorStyle.getInteger("no2_err") : 0;
-                NO2 = getRateValue(random, no2_);
-            }
-            if(factorStyle.containsKey("so2")) {
-                float so2_ = factorStyle.getFloatValue("so2");
-                int so2_err = factorStyle.containsKey("so2_err") ? factorStyle.getInteger("so2_err") : 0;
-                SO2 = getRateValue(random, so2_);
-            }
-            if(factorStyle.containsKey("o3")) {
-                float o3_ = factorStyle.getFloatValue("o3");
-                int o3_err = factorStyle.containsKey("o3_err") ? factorStyle.getInteger("o3_err") : 0;
-                O3 = getRateValue(random, o3_);
-            }
-            if(factorStyle.containsKey("nois")) {
-                float nois_ = factorStyle.getFloatValue("nois");
-                int nois_err = factorStyle.containsKey("nois_err") ? factorStyle.getInteger("nois_err") : 0;
-                NOIS = getRateValue(random, nois_);
-            }
-            if(factorStyle.containsKey("pm25")) {
-                float pm25_ = factorStyle.getFloatValue("pm25");
-                int pm25_err = factorStyle.containsKey("pm25_err") ? factorStyle.getInteger("pm25") : 0;
-                PM25 = getRateValue(random, pm25_);
-            }
-            if(factorStyle.containsKey("pm10")) {
-                float pm10_ = factorStyle.getFloatValue("pm10");
-                int pm10_err = factorStyle.containsKey("pm10_err") ? factorStyle.getInteger("pm10") : 0;
-                PM10 = getRateValue(random, pm10_);
-            }
-            if(factorStyle.containsKey("tem")) {
-                float tem_ = factorStyle.getFloatValue("tem");
-                int tem_err = factorStyle.containsKey("tem_err") ? factorStyle.getInteger("tem") : 0;
-                TEM = getRateValue(random, tem_);
-            }
-            if(factorStyle.containsKey("rh")) {
-                float rh_ = factorStyle.getFloatValue("rh");
-                int rh_err = factorStyle.containsKey("rh_err") ? factorStyle.getInteger("rh") : 0;
-                RH = getRateValue(random, rh_);
-            }
-            if(factorStyle.containsKey("wd")) {
-                float wd_ = factorStyle.getFloatValue("wd");
-                int wd_err = factorStyle.containsKey("wd_err") ? factorStyle.getInteger("wd") : 0;
-                WD = getRateValue(random, wd_);
-            }
-            if(factorStyle.containsKey("ws")) {
-                float ws_ = factorStyle.getFloatValue("ws");
-                int ws_err = factorStyle.containsKey("ws_err") ? factorStyle.getInteger("ws") : 0;
-                WS = getRateValue(random, ws_);
-            }
-            if(factorStyle.containsKey("pa")) {
-                float pa_ = factorStyle.getFloatValue("pa");
-                int pa_err = factorStyle.containsKey("pa_err") ? factorStyle.getInteger("pa") : 0;
-                PA = getRateValue(random, pa_);
-            }
-            if(factorStyle.containsKey("tsp")) {
-                float tsp_ = factorStyle.getFloatValue("tsp");
-                int tsp_err = factorStyle.containsKey("tsp_err") ? factorStyle.getInteger("tsp") : 0;
-                TSP = getRateValue(random, tsp_);
-            }
-        } else {
+        if(factorStyle != null && factorStyle.containsKey("co")) {
+            float co_ = factorStyle.getFloatValue("co");
+            int co_err = factorStyle.getInteger("co_err");
+            CO = getRateValue(random, co_, co_err == 1);
+        } else if(fullFactor){
             CO = String.valueOf(0.71f + getRandomFixedData() / 18.0f);
+        }
+        if(factorStyle != null && factorStyle.containsKey("no2")) {
+            float no2_ = factorStyle.getFloatValue("no2");
+            int no2_err = factorStyle.containsKey("no2_err") ? factorStyle.getInteger("no2_err") : 0;
+            NO2 = getRateValue(random, no2_, no2_err == 1);
+        } else if(fullFactor){
             NO2 = String.valueOf(36f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("so2")) {
+            float so2_ = factorStyle.getFloatValue("so2");
+            int so2_err = factorStyle.containsKey("so2_err") ? factorStyle.getInteger("so2_err") : 0;
+            SO2 = getRateValue(random, so2_, so2_err == 1);
+        } else if(fullFactor){
             SO2 = String.valueOf(9f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("o3")) {
+            float o3_ = factorStyle.getFloatValue("o3");
+            int o3_err = factorStyle.containsKey("o3_err") ? factorStyle.getInteger("o3_err") : 0;
+            O3 = getRateValue(random, o3_, o3_err == 1);
+        } else if(fullFactor){
             O3 = String.valueOf(21f + getRandomFixedData() / 10.0f);
+        }
+        if(factorStyle != null && factorStyle.containsKey("nois")) {
+            float nois_ = factorStyle.getFloatValue("nois");
+            int nois_err = factorStyle.containsKey("nois_err") ? factorStyle.getInteger("nois_err") : 0;
+            NOIS = getRateValue(random, nois_, nois_err == 1);
+        } else if(fullFactor){
             NOIS = String.valueOf(32f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("pm25")) {
+            float pm25_ = factorStyle.getFloatValue("pm25");
+            int pm25_err = factorStyle.containsKey("pm25_err") ? factorStyle.getInteger("pm25") : 0;
+            PM25 = getRateValue(random, pm25_, pm25_err == 1);
+        } else if(fullFactor){
             PM25 = String.valueOf(17f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("pm10")) {
+            float pm10_ = factorStyle.getFloatValue("pm10");
+            int pm10_err = factorStyle.containsKey("pm10_err") ? factorStyle.getInteger("pm10") : 0;
+            PM10 = getRateValue(random, pm10_, pm10_err == 1);
+        } else if(fullFactor){
             PM10 = String.valueOf(18f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("tem")) {
+            float tem_ = factorStyle.getFloatValue("tem");
+            int tem_err = factorStyle.containsKey("tem_err") ? factorStyle.getInteger("tem") : 0;
+            TEM = getRateValue(random, tem_, tem_err == 1);
+        } else if(fullFactor){
             TEM = String.valueOf(getRandomTemData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("rh")) {
+            float rh_ = factorStyle.getFloatValue("rh");
+            int rh_err = factorStyle.containsKey("rh_err") ? factorStyle.getInteger("rh") : 0;
+            RH = getRateValue(random, rh_, rh_err == 1);
+        } else if(fullFactor){
             RH = String.valueOf(51f + getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("wd")) {
+            float wd_ = factorStyle.getFloatValue("wd");
+            int wd_err = factorStyle.containsKey("wd_err") ? factorStyle.getInteger("wd") : 0;
+            WD = getRateValue(random, wd_, wd_err == 1);
+        } else if(fullFactor){
             WD = String.valueOf(getRandomFixedData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("ws")) {
+            float ws_ = factorStyle.getFloatValue("ws");
+            int ws_err = factorStyle.containsKey("ws_err") ? factorStyle.getInteger("ws") : 0;
+            WS = getRateValue(random, ws_, ws_err == 1);
+        } else if(fullFactor){
             WS = String.valueOf(1 + getRandomFixedData() / 2.0f);
+        }
+        if(factorStyle != null && factorStyle.containsKey("pa")) {
+            float pa_ = factorStyle.getFloatValue("pa");
+            int pa_err = factorStyle.containsKey("pa_err") ? factorStyle.getInteger("pa") : 0;
+            PA = getRateValue(random, pa_, pa_err == 1);
+        } else if(fullFactor){
             PA = String.valueOf(getRandomPaData());
+        }
+        if(factorStyle != null && factorStyle.containsKey("tsp")) {
+            float tsp_ = factorStyle.getFloatValue("tsp");
+            int tsp_err = factorStyle.containsKey("tsp_err") ? factorStyle.getInteger("tsp") : 0;
+            TSP = getRateValue(random, tsp_, tsp_err == 1);
+        } else if(fullFactor){
             TSP = String.valueOf(getRandomFixedData());
         }
         
@@ -190,9 +202,23 @@ public class DeviceData implements IDeviceData{
      * @author 		: Liu Siyuan
      * @Date 		: 2018年4月10日 下午4:03:49
      * @version 1.0.0
+     * @param isError 
      */
-    public static String getRateValue(Random random, float d) {
+    public static String getRateValue(Random random, float d, boolean isError) {
         float rate = (random.nextInt(200) + 900) / 1000.0f;
+        
+        // isError == true 随机制造一些异常情况（0值，负值，超大值）
+        if(isError) {
+            if(rate < 0.96) {
+                //0值
+                rate = 0;//变0值
+            } else if(rate < 1.03) {
+                rate *= -1;//变负值
+            } else {
+                rate *= 123;//常规值得123倍
+            }
+        }
+        
         int decimal = getDecimal(d);
         return String.format("%."+decimal+"f", d * rate);
     }
@@ -262,6 +288,11 @@ public class DeviceData implements IDeviceData{
     @Override
     public void setFactorStyle(JSONObject jo) {
         factorStyle = jo;
+    }
+
+    @Override
+    public void setAutoFullFactor(boolean b) {
+        fullFactor = b;
     }
 }
 
