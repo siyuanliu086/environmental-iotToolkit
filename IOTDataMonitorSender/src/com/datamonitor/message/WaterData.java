@@ -1,5 +1,6 @@
 package com.datamonitor.message;
 
+import com.alibaba.fastjson.JSONObject;
 import com.datamonitor.utils.StringUtil;
 
 import java.text.DecimalFormat;
@@ -15,7 +16,6 @@ public class WaterData implements IDeviceData {
 
     private String message;
 
-    private int index;
     private String dataTime;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -25,7 +25,7 @@ public class WaterData implements IDeviceData {
         dataTime = sdf.format(new Date());
     }
     
-    public void setDeviceInfo(String deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
     
@@ -185,38 +185,16 @@ public class WaterData implements IDeviceData {
     public String getDeviceType() {
         return SURFACE_WATER_MONITOR_212;
     }
+    
+    @Override
+    public int getDataType() {
+        return TYPE_WATER_NA212;
+    }
+    
+    private JSONObject factorStyle;
+    @Override
+    public void setFactorStyle(JSONObject jo) {
+        factorStyle = jo;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

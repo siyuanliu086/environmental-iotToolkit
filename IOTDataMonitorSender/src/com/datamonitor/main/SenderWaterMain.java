@@ -45,7 +45,7 @@ public class SenderWaterMain {
                     public void run() {
                         WaterData data = new WaterData(ConfigFile.SOCKET_SERVER_IP, ConfigFile.SOCKET_SERVER_PORT);
                         for(String deviceId : deviceArr) {
-                            data.setDeviceInfo(deviceId);
+                            data.setDeviceId(deviceId);
                             try {
                                 SenderClient.startSocketClient(data);
                                 //send(data);//这里发送了两次

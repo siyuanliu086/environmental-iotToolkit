@@ -46,7 +46,7 @@ public class TVOCSenderMain {
                     public void run() {
                         TVOCDeviceData data = new TVOCDeviceData(ConfigFile.SOCKET_SERVER_IP, ConfigFile.SOCKET_SERVER_PORT);
                         for(String deviceId : deviceArr) {
-                            data.setDeviceInfo(deviceId);
+                            data.setDeviceId(deviceId);
                             try {
                                 SenderClient.startSocketClient(data);
                             } catch (Exception e) {

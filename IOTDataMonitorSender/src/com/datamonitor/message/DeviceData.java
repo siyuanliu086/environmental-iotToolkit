@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import com.alibaba.fastjson.JSONObject;
 import com.datamonitor.ConfigFile;
 import com.datamonitor.utils.StringUtil;
 
@@ -27,7 +28,7 @@ public class DeviceData implements IDeviceData{
         dataTime = sdf.format(new Date());
     }
     
-    public void setDeviceInfo(String deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
     
@@ -251,38 +252,16 @@ public class DeviceData implements IDeviceData{
     public String getDeviceType() {
         return AIR_MONITOR_MONITOR_212;
     }
+
+    @Override
+    public int getDataType() {
+        return TYPE_AIR_SIM212;
+    }
+
+    private JSONObject factorStyle;
+    @Override
+    public void setFactorStyle(JSONObject jo) {
+        factorStyle = jo;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

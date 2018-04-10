@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -25,6 +27,8 @@ import com.iss.iotcheck.MainWindow;
 
 
 public class MainFrame {
+    // 面板区显示的信息条数（超出部分回收）
+    private static final int BUFFER_SIZE = 60;
 
     private JFrame frame;
     private JTextField configTextField;
@@ -61,7 +65,7 @@ public class MainFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame("软通智慧环保IOT数据模拟发送工具");
+        frame = new JFrame(Controller.TITLE);
         frame.setBackground(SystemColor.textHighlight);
         frame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
         frame.setBounds(100, 100, 750, 492);
@@ -124,10 +128,10 @@ public class MainFrame {
         serverTextField.setBounds(128, 66, 340, 21);
         frame.getContentPane().add(serverTextField);
         
-        JLabel label_2 = new JLabel("端口号：");
-        label_2.setIcon(new ImageIcon(MainFrame.class.getResource("/images/icon_port.png")));
-        label_2.setBounds(10, 94, 116, 21);
-        frame.getContentPane().add(label_2);
+        JLabel portLabel = new JLabel("端口号：");
+        portLabel.setIcon(new ImageIcon(MainFrame.class.getResource("/images/icon_port.png")));
+        portLabel.setBounds(10, 94, 116, 21);
+        frame.getContentPane().add(portLabel);
         
         portTextField = new JTextField();
         portTextField.setColumns(10);
@@ -140,22 +144,85 @@ public class MainFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String type = "0";
+                frame.setTitle(Controller.TITLE + "-" + "XXX");
+                
+                // 获取选择类型编号
+                int selectIndex = 0;
+                String selectedItem = comboBox.getSelectedItem().toString();
+                for(; selectIndex < item.length; selectIndex ++) {
+                    String name = item[selectIndex];
+                    if(selectedItem.equals(name)) {
+                        break;
+                    }
+                }
+                
+                // 获取选择配置文件
                 String configFilePath = configTextField.getText().trim();
                 String server = serverTextField.getText().trim();
                 String port = portTextField.getText().trim();
                 // 处理数据
-                Controller.getInstance(type, configFilePath, server, port).setListMessage(contentList);
-                
-                // 界面调整
-                JScrollBar sBar = scrollPane.getVerticalScrollBar(); 
-                sBar.setValue(sBar.getMaximum() + 10); 
+                Controller mController = Controller.getInstance(selectIndex, configFilePath, server, port);
+                mController.setControllerCallback(new Controller.IControllerCallback() {
+                    
+                    @Override
+                    public void updateTitle(String title) {
+                        frame.setTitle(Controller.TITLE + "-" + title);
+                    }
+                    
+                    @Override
+                    public void onMessage(String mess) {
+                        setListMessage(mess);
+                    }
+                });
             }
         });
     }
     
+    private Timer timer;
+    
+    /**
+     * @description : 发送信息打印窗口
+     * @business	: 发送信息打印，自动运动
+     * @param 		: mess 信息，数据包
+     * @return		:
+     * @author 		: Liu Siyuan
+     * @Date 		: 2018年4月10日 下午2:07:10
+     * @version 1.0.0
+     */
+    public void setListMessage(String mess) {
+        ListModel dlm = contentList.getModel();
+        int index = 0, size = dlm.getSize();
+        if(size >= BUFFER_SIZE) {
+            index = size - BUFFER_SIZE;
+        }
+        DefaultListModel addDlm = new DefaultListModel();
+        for(; index < dlm.getSize(); index ++) {
+            addDlm.addElement(dlm.getElementAt(index));
+        }
+        addDlm.addElement(mess);
+        contentList.setModel(addDlm);
+        
+        if(timer == null) {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                
+                @Override
+                public void run() {
+                    // 自动滚动到底部
+                    JScrollBar sBar = scrollPane.getVerticalScrollBar(); 
+                    sBar.setValue(sBar.getMaximum()); 
+                }
+            }, 800);
+        }
+    }
+    
 
-    /**文件选择器*/
+    /**
+     * @description : 文件选择器
+     * @author 		: Liu Siyuan
+     * @Date 		: 2018年4月10日 下午2:08:40
+     * @version 1.0.0
+     */
     private void clickChooseFile() {
         JFileChooser jfc = new JFileChooser(".");
         JSONFileFilter excelFilter = new JSONFileFilter(); //excel过滤器    
@@ -176,9 +243,8 @@ public class MainFrame {
     }
     
     /**
-     * 文件选择器
+     * 文件过滤器
      * @author Liu Siyuan
-     *
      */
     class JSONFileFilter extends FileFilter {    
         public String getDescription() {    

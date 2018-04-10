@@ -16,15 +16,10 @@ public class SenderClient {
      * @param data
      * @throws Exception
      */
-    public static void startSocketClient(IDeviceData data) throws Exception {
+    public static String startSocketClient(IDeviceData data) throws Exception {
         // 构建数据协议
         String dataStr = data.getMessage();
-        if (StringUtil.isEmptyString(dataStr)) {
-            return;
-        }
-
-        // XX平台转发
-        if (dataStr != null) {
+        if (!StringUtil.isEmptyString(dataStr)) {
             String messageKey = data.getServer() +  "_" + data.getDeviceId();
             if (socketManages == null || !socketManages.containsKey(messageKey)) {
                 socketManages.put(messageKey, "true");
@@ -33,6 +28,7 @@ public class SenderClient {
             }
             CustomMq.push(messageKey, dataStr);
         }
+        return dataStr;
     }
 
 }

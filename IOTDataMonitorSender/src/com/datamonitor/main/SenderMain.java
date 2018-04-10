@@ -43,7 +43,7 @@ public class SenderMain {
                 for(String deviceId : deviceArr) {
                     data.setIndex(i);
                     i ++;
-                    data.setDeviceInfo(deviceId);
+                    data.setDeviceId(deviceId);
                     try {
                         SenderClient.startSocketClient(data);
                         //send(data);//这里发送了两次
