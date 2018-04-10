@@ -41,7 +41,6 @@ public class SenderMain {
                 DeviceData data = new DeviceData(ConfigFile.SOCKET_SERVER_IP, ConfigFile.SOCKET_SERVER_PORT);
                 int i = 0;
                 for(String deviceId : deviceArr) {
-                    data.setIndex(i);
                     i ++;
                     data.setDeviceId(deviceId);
                     try {
