@@ -3,6 +3,7 @@ package com.iss.iotdatamonitor.ui;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -32,7 +33,7 @@ public class Controller {
     
     public static Controller instance;
     
-    private List<IDeviceData> deviceList;
+    private List<IDeviceData> deviceList = new ArrayList<>();
 
     private Controller(int type, String configFilePath, String server, String port) {
         this.type = type;
@@ -50,17 +51,16 @@ public class Controller {
     }
     
     public void init() {
+        try {
+            parseConfigFile(configFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         deviceList.add((IDeviceData) (new DeviceData(server, port)));
         deviceList.add((IDeviceData) (new NationalDeviceData(server, port)));
         deviceList.add((IDeviceData) (new TVOCDeviceData(server, port)));
         deviceList.add((IDeviceData) (new WaterData(server, port)));
-        
-        try {
-            parseConfigFile(configFilePath);
-            startSender();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        startSender();
     }
     
     /**
@@ -94,6 +94,7 @@ public class Controller {
     private void deviceSend(IDeviceData deviceData) {
         for(String deviceId : deviceIdArr) {
             deviceData.setDeviceId(deviceId);
+            deviceData.setFactorStyle(styleJO);
             try {
                 String mess = SenderClient.startSocketClient(deviceData);
                 callbackPrint(mess);

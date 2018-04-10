@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.filechooser.FileFilter;
 
+import com.datamonitor.message.DeviceData;
 import com.iss.iotcheck.MainWindow;
 
 
@@ -96,6 +97,7 @@ public class MainFrame {
         frame.getContentPane().add(configLabel);
         
         configTextField = new JTextField();
+        configTextField.setText("D:\\as_git\\environmental-iotToolkit\\IOTDataMonitorSenderUI\\src\\com\\iss\\iotdatamonitor\\ui\\data_monitor.txt");
         configTextField.setBounds(128, 38, 340, 21);
         frame.getContentPane().add(configTextField);
         configTextField.setColumns(10);
@@ -124,6 +126,7 @@ public class MainFrame {
         frame.getContentPane().add(serverLabel);
         
         serverTextField = new JTextField();
+        serverTextField.setText("49.4.6.49");
         serverTextField.setColumns(10);
         serverTextField.setBounds(128, 66, 340, 21);
         frame.getContentPane().add(serverTextField);
@@ -134,6 +137,7 @@ public class MainFrame {
         frame.getContentPane().add(portLabel);
         
         portTextField = new JTextField();
+        portTextField.setText("8095");
         portTextField.setColumns(10);
         portTextField.setBounds(128, 94, 340, 21);
         frame.getContentPane().add(portTextField);
@@ -144,6 +148,9 @@ public class MainFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                DeviceData data = new DeviceData("", "");
+                
                 frame.setTitle(Controller.TITLE + "-" + "XXX");
                 
                 // 获取选择类型编号
@@ -174,6 +181,7 @@ public class MainFrame {
                         setListMessage(mess);
                     }
                 });
+                mController.init();
             }
         });
     }
