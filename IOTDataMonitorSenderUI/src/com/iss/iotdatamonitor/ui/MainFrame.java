@@ -23,9 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.filechooser.FileFilter;
 
-import com.datamonitor.message.DeviceData;
 import com.iss.iotcheck.MainWindow;
-
 
 public class MainFrame {
     // 面板区显示的信息条数（超出部分回收）
@@ -37,6 +35,9 @@ public class MainFrame {
     private JList contentList;
     private JTextField serverTextField;
     private JTextField portTextField;
+    
+    private JButton stopButton;
+    private JButton resetButton;
 
     /**
      * Launch the application.
@@ -103,7 +104,7 @@ public class MainFrame {
         configTextField.setColumns(10);
         
         JButton selectConfigButton = new JButton("选择");
-        selectConfigButton.setBounds(478, 37, 98, 23);
+        selectConfigButton.setBounds(478, 37, 60, 23);
         frame.getContentPane().add(selectConfigButton);
         selectConfigButton.addActionListener(new ActionListener() {
             @Override
@@ -143,16 +144,19 @@ public class MainFrame {
         frame.getContentPane().add(portTextField);
         
         JButton startButton = new JButton("开始");
-        startButton.setBounds(478, 93, 98, 23);
+        startButton.setBounds(478, 93, 60, 23);
         frame.getContentPane().add(startButton);
+        
+        stopButton = new JButton("停止");
+        stopButton.setBounds(548, 93, 60, 23);
+        frame.getContentPane().add(stopButton);
+        
+        resetButton = new JButton("重置");
+        resetButton.setBounds(674, 93, 60, 23);
+        frame.getContentPane().add(resetButton);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                DeviceData data = new DeviceData("", "");
-                
-                frame.setTitle(Controller.TITLE + "-" + "XXX");
-                
                 // 获取选择类型编号
                 int selectIndex = 0;
                 String selectedItem = comboBox.getSelectedItem().toString();
