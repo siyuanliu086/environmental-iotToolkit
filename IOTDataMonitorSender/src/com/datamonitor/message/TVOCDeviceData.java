@@ -60,7 +60,7 @@ public class TVOCDeviceData implements IDeviceData {
         stArea.append(getDeviceType()).append(";");
         stArea.append("CN=2011;PW=123456;MN="+deviceId+";");
         stArea.append("CP=&&");
-        DecimalFormat decimalFormat =  new DecimalFormat("#.##");
+
         String o2_content = "";
         String stack_gas_velocity = "";
         String gas_tem = "";
@@ -72,8 +72,7 @@ public class TVOCDeviceData implements IDeviceData {
         String so2 = "";
         String so2_zs = "";
         String nox = "";
-        String nox_zs = "";
-        
+        String nox_zs = "";      
         if(factorStyle != null && factorStyle.containsKey("o2_content")) {
             float o2_content_ = factorStyle.getFloatValue("o2_content");
             int o2_content_err = factorStyle.getInteger("o2_content_err");
@@ -186,22 +185,27 @@ public class TVOCDeviceData implements IDeviceData {
         if(!StringUtil.isEmptyString(soot_zs)) {            
             stArea.append(",01-ZsRtd=").append(soot_zs);//2
         }
-        stArea.append(",01-Flag=N;");//3
+        if(!StringUtil.isEmptyString(soot) || !StringUtil.isEmptyString(soot_zs)) {
+            stArea.append(",01-Flag=N;");//3
+        }
         if(!StringUtil.isEmptyString(so2)) {            
             stArea.append("02-Rtd=").append(so2);//1
         }
         if(!StringUtil.isEmptyString(so2_zs)) {
             stArea.append(",02-ZsRtd=").append(so2_zs);//2
         }
-        stArea.append(",02-Flag=N;");//3
+        if(!StringUtil.isEmptyString(so2) || !StringUtil.isEmptyString(so2_zs)) {            
+            stArea.append(",02-Flag=N;");//3
+        }
         if(!StringUtil.isEmptyString(nox)) {            
-            stArea.append("WS-Rtd=").append(nox).append(",WS-Flag=N;");
-            stArea.append("03-Rtd=").append(nox);
+            stArea.append("03-Rtd=").append(nox);//1
         }
         if(!StringUtil.isEmptyString(nox_zs)) {
-            stArea.append(",03-ZsRtd=").append(nox_zs);
+            stArea.append(",03-ZsRtd=").append(nox_zs);//2
         }
-        stArea.append(",03-Flag=N");
+        if(!StringUtil.isEmptyString(nox) || !StringUtil.isEmptyString(nox_zs)) {  
+            stArea.append(",03-Flag=N");//3
+        }
         stArea.append("&&");
         
         String CRC = Integer.toHexString(StringUtil.getCRC(stArea.toString())).toUpperCase();
