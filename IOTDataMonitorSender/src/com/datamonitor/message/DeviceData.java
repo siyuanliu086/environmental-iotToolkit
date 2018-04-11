@@ -278,27 +278,6 @@ public class DeviceData implements IDeviceData{
     private float getRandomFixedData() {
         return random.nextInt(12);
     }
-    
-    public static int getCRC(String data212) {
-        int CRC = 0xFFFF;
-        int num = 0xA001;
-        int inum = 0;
-        byte[] sb = data212.getBytes();
-        for(int j = 0; j < sb.length; j ++) {
-            inum = sb[j];
-            CRC = (CRC >> 8) & 0x00FF;
-            CRC ^= inum;
-            for(int k = 0; k < 8; k++) {
-                int flag = CRC % 2;
-                CRC = CRC >> 1;
-            
-                if(flag == 1) {
-                    CRC = CRC ^ num;
-                }
-            }
-        }
-        return CRC;
-    }
 
     @Override
     public String getDeviceType() {
