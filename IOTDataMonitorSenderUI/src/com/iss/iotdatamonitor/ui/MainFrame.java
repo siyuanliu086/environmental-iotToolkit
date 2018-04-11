@@ -310,8 +310,8 @@ public class MainFrame {
         for(; index < dlm.getSize(); index ++) {
             addDlm.addElement(dlm.getElementAt(index));
         }
-        addDlm.addElement("---- send " + deviceId + "----");
-        addDlm.addElement(sdf.format(new Date()) + "----" + mess);
+        addDlm.addElement("---- send " + sdf.format(new Date()) + deviceId + "----");
+        addDlm.addElement(mess);
         contentList.setModel(addDlm);
         
         if(size > 16) {
