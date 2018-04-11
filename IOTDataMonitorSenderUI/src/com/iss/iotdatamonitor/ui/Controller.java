@@ -21,6 +21,7 @@ public class Controller {
     
     private static final int TIME_SLEEP = 5;//休眠5秒
     
+    private String title;
     private int type;//发送类型
     private String[] deviceIdArr;// 设备编号
     private int sendCycle = 10;// 默认10分钟
@@ -127,7 +128,7 @@ public class Controller {
             deviceData.setFactorStyle(factorStyleJO);
             try {
                 String mess = SenderClient.startSocketClient(deviceData);
-                callbackPrint(mess);
+                callbackPrint(deviceId, mess);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -151,7 +152,7 @@ public class Controller {
             String config = FileHelper.readTxt(path, "UTF-8");
             JSONObject configJO = JSONObject.parseObject(config);
             // 设置标题
-            String title = configJO.getString("title");
+            title = configJO.getString("title");
             callbackTitle(title);
             
             // 周期
@@ -180,21 +181,25 @@ public class Controller {
             String deviceIds = configJO.getString("deviceIds");
             deviceIdArr = deviceIds.split(",");
         } else {
-            callbackPrint("文件异常！");
+            callbackPrint("ERROR!", "文件异常！");
         }
+    }
+    
+    public String getTitle() {
+        return title;
     }
     
     private IControllerCallback callback;
     public interface IControllerCallback {
-        void onMessage(String mess);
+        void onMessage(String deviceId, String mess);
         void updateTitle(String title);
     }
     public void setControllerCallback(IControllerCallback callback) {
         this.callback = callback;
     }
-    private void callbackPrint(String mess) {
+    private void callbackPrint(String deviceId, String mess) {
         if(callback != null) {
-            callback.onMessage(mess);
+            callback.onMessage(deviceId, mess);
         }
     }
     private void callbackTitle(String title) {

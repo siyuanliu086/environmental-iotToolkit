@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,17 +29,21 @@ import com.iss.iotcheck.MainWindow;
 
 public class MainFrame {
     // 面板区显示的信息条数（超出部分回收）
-    private static final int BUFFER_SIZE = 60;
+    private static final int BUFFER_SIZE = 10;
 
     private JFrame frame;
     private JTextField configTextField;
     private JScrollPane scrollPane;
-    private JList contentList;
+    private JList<String> contentList;
     private JTextField serverTextField;
     private JTextField portTextField;
     
+    private JButton startButton;
     private JButton stopButton;
     private JButton resetButton;
+    
+    private long startTimeMillis;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Launch the application.
@@ -118,7 +124,7 @@ public class MainFrame {
         scrollPane.setBounds(10, 126, 724, 328);
         frame.getContentPane().add(scrollPane);
         
-        contentList = new JList();
+        contentList = new JList<String>();
         scrollPane.setViewportView(contentList);
         
         JLabel serverLabel = new JLabel("服务器地址：");
@@ -143,7 +149,7 @@ public class MainFrame {
         portTextField.setBounds(128, 94, 340, 21);
         frame.getContentPane().add(portTextField);
         
-        JButton startButton = new JButton("开始");
+        startButton = new JButton("开始");
         startButton.setBounds(478, 93, 60, 23);
         frame.getContentPane().add(startButton);
         startButton.addActionListener(new ActionListener() {
@@ -169,26 +175,31 @@ public class MainFrame {
                     
                     @Override
                     public void updateTitle(String title) {
-                        frame.setTitle(Controller.TITLE + "-" + title);
+                        //frame.setTitle(Controller.TITLE + "-" + title);
                     }
                     
                     @Override
-                    public void onMessage(String mess) {
-                        setListMessage(mess);
+                    public void onMessage(String deviceId, String mess) {
+                        setListMessage(deviceId, mess);
                     }
                 });
                 mController.init(selectIndex, configFilePath, server, port);
                 mController.start();
+                
+                setRunState(true);
             }
         });
         
         stopButton = new JButton("停止");
+        stopButton.setEnabled(false);
         stopButton.setBounds(548, 93, 60, 23);
         frame.getContentPane().add(stopButton);
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getInstance().stop();
+                
+                setRunState(false);
             }
         });
         
@@ -199,11 +210,85 @@ public class MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getInstance().reset();
+                setReset();
             }
         });
     }
     
-    private Timer timer;
+    /**
+     * @description : 切换运行和停止状态
+     * @author      : Liu Siyuan
+     * @Date        : 2018年4月11日 下午2:21:31
+     * @version 1.0.0
+     */
+    private void setRunState(boolean isRun) {
+        if(isRun) {
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+            
+            startTimeMillis = System.currentTimeMillis();
+            if(mTopTimer == null) {
+                mTopTimer = new Timer();
+                mTopTimer.schedule(new TimerTask() {
+                    
+                    @Override
+                    public void run() {
+                        String title = Controller.getInstance().getTitle();
+                        frame.setTitle(title + "--" + getTimeSpend());
+                    }
+                }, 0, 1000);
+            }
+        } else {
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+            if(mTopTimer != null) {
+                mTopTimer.cancel();
+            }
+        }
+    }
+    
+    /**
+     * @description : 重置
+     * @author 		: Liu Siyuan
+     * @Date 		: 2018年4月11日 下午2:21:31
+     * @version 1.0.0
+     */
+    private void setReset() {
+        // 按钮状态重置
+        setRunState(false);
+        // 重置标题
+        frame.setTitle(Controller.getInstance().getTitle() + "--" + getTimeSpend());
+    }
+    
+    /**
+     * @description : 计算运行时间
+     * @author      : Liu Siyuan
+     * @Date        : 2018年4月11日 下午2:21:31
+     * @version 1.0.0
+     */
+    private String getTimeSpend() {
+        long spendTime = System.currentTimeMillis() - startTimeMillis;
+        long dayTime = 1000 * 60 * 60 * 24;
+        long hourTime = 1000 * 60 * 60;
+        long minuteTime = 1000 * 60;
+        long secondTime = 1000;
+        
+        int days = (int) (spendTime / dayTime);
+        int hours = (int) ((spendTime - days * dayTime)/hourTime);
+        int minutes  = (int) ((spendTime - days * dayTime - hours * hourTime)/minuteTime);
+        int second  = (int) ((spendTime - days * dayTime - hours * hourTime - minutes * minuteTime) / secondTime);
+        
+        if(days == 0 && hours == 0 && minutes == 0) {
+            return second + "秒";
+        } else if(days == 0 && hours == 0) {
+            return minutes + "分" + second + "秒";
+        } else if(days == 0) {
+            return hours + "小时" + minutes + "分" + second + "秒";
+        }
+        return days + "天" + hours + "小时" + minutes + "分" + second + "秒";
+    }
+    
+    private Timer mTopTimer;
     
     /**
      * @description : 发送信息打印窗口
@@ -214,21 +299,22 @@ public class MainFrame {
      * @Date 		: 2018年4月10日 下午2:07:10
      * @version 1.0.0
      */
-    public void setListMessage(String mess) {
-        ListModel dlm = contentList.getModel();
+    private void setListMessage(String deviceId, String mess) {
+        ListModel<String> dlm = contentList.getModel();
         int index = 0, size = dlm.getSize();
         if(size >= BUFFER_SIZE) {
             index = size - BUFFER_SIZE;
         }
-        DefaultListModel addDlm = new DefaultListModel();
+        DefaultListModel<String> addDlm = new DefaultListModel<String>();
         for(; index < dlm.getSize(); index ++) {
             addDlm.addElement(dlm.getElementAt(index));
         }
-        addDlm.addElement(mess);
+        addDlm.addElement("---- send " + deviceId + "----");
+        addDlm.addElement(sdf.format(new Date()) + "----" + mess);
         contentList.setModel(addDlm);
         
-        if(timer == null) {
-            timer = new Timer();
+        if(size > 16) {
+            Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 
                 @Override
