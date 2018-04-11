@@ -88,6 +88,7 @@ public class Controller {
     public void reset() {
         deviceList.clear();
         deviceIdArr = null;
+        stop();
     }
     
     /**
