@@ -16,8 +16,8 @@ public interface IDeviceData {
     /**空气污染监测系统编码*/
     String AIR_POLLUTE_MONITOR_212 = "31";
     
-    public static final int TYPE_AIR_NA212 = 0;
-    public static final int TYPE_AIR_SIM212 = 1;
+    public static final int TYPE_AIR_SIM212 = 0;
+    public static final int TYPE_AIR_NA212 = 1;
     public static final int TYPE_AIR_TVOC212 = 2;
     public static final int TYPE_WATER_NA212 = 3;
     public static final int TYPE_POS_NA212 = 4;

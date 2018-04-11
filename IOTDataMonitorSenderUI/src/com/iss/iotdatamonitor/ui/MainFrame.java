@@ -29,7 +29,7 @@ import com.iss.iotcheck.MainWindow;
 
 public class MainFrame {
     // 面板区显示的信息条数（超出部分回收）
-    private static final int BUFFER_SIZE = 10;
+    private static final int BUFFER_SIZE = 40;
 
     private JFrame frame;
     private JTextField configTextField;
@@ -88,8 +88,8 @@ public class MainFrame {
         frame.getContentPane().add(typeLabel);
         
         String[] item = new String[] {
-                "大气-国标212",
                 "大气-简标212",
+                "大气-国标212",
                 "大气-TVOC",
                 "地表水-国标212",
                 "位置-简标212"
