@@ -146,14 +146,6 @@ public class MainFrame {
         JButton startButton = new JButton("开始");
         startButton.setBounds(478, 93, 60, 23);
         frame.getContentPane().add(startButton);
-        
-        stopButton = new JButton("停止");
-        stopButton.setBounds(548, 93, 60, 23);
-        frame.getContentPane().add(stopButton);
-        
-        resetButton = new JButton("重置");
-        resetButton.setBounds(674, 93, 60, 23);
-        frame.getContentPane().add(resetButton);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,7 +164,7 @@ public class MainFrame {
                 String server = serverTextField.getText().trim();
                 String port = portTextField.getText().trim();
                 // 处理数据
-                Controller mController = Controller.getInstance(selectIndex, configFilePath, server, port);
+                Controller mController = Controller.getInstance();
                 mController.setControllerCallback(new Controller.IControllerCallback() {
                     
                     @Override
@@ -185,7 +177,28 @@ public class MainFrame {
                         setListMessage(mess);
                     }
                 });
-                mController.init();
+                mController.init(selectIndex, configFilePath, server, port);
+                mController.start();
+            }
+        });
+        
+        stopButton = new JButton("停止");
+        stopButton.setBounds(548, 93, 60, 23);
+        frame.getContentPane().add(stopButton);
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getInstance().stop();
+            }
+        });
+        
+        resetButton = new JButton("重置");
+        resetButton.setBounds(674, 93, 60, 23);
+        frame.getContentPane().add(resetButton);
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getInstance().reset();
             }
         });
     }

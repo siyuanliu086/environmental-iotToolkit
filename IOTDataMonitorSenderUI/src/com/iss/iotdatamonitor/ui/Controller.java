@@ -2,22 +2,18 @@ package com.iss.iotdatamonitor.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.alibaba.fastjson.JSONObject;
-import com.datamonitor.ConfigFile;
 import com.datamonitor.message.DeviceData;
 import com.datamonitor.message.IDeviceData;
 import com.datamonitor.message.NationalDeviceData;
 import com.datamonitor.message.TVOCDeviceData;
 import com.datamonitor.message.WaterData;
 import com.datamonitor.sender.SenderClient;
-import com.datamonitor.utils.StringUtil;
 import com.iss.iotdatamonitor.tools.FileHelper;
 
 public class Controller {
@@ -25,33 +21,32 @@ public class Controller {
     
     private static final int TIME_SLEEP = 5;//休眠5秒
     
-    private int type;
-    private String configFilePath, server, port;
-    private String[] deviceIdArr;
-    private int sendCycle = 10;//默认10分钟
+    private int type;//发送类型
+    private String[] deviceIdArr;// 设备编号
+    private int sendCycle = 10;// 默认10分钟
     private int autoFullFactor = 0;//默认补全全部因子
-    private JSONObject styleJO;
+    private JSONObject factorStyleJO;//因子规范 
     
-    public static Controller instance;
     
+    // 循环主线程
+    private Timer mainTimer;
+    
+    // 设备发送器
     private List<IDeviceData> deviceList = new ArrayList<>();
 
-    private Controller(int type, String configFilePath, String server, String port) {
-        this.type = type;
-        this.configFilePath = configFilePath;
-        this.server = server;
-        this.port = port;
-    }
+    private boolean isRun;
     private Controller() {};
+    public static Controller instance;
     
-    public static Controller getInstance(int type, String configFilePath, String server, String port) {
+    public static Controller getInstance() {
         if (instance == null) {
-            instance = new Controller(type, configFilePath, server, port);
+            instance = new Controller();
         }
         return instance;
     }
     
-    public void init() {
+    public void init(int type, String configFilePath, String server, String port) {
+        this.type = type;
         try {
             parseConfigFile(configFilePath);
         } catch (Exception e) {
@@ -61,7 +56,37 @@ public class Controller {
         deviceList.add((IDeviceData) (new NationalDeviceData(server, port)));
         deviceList.add((IDeviceData) (new TVOCDeviceData(server, port)));
         deviceList.add((IDeviceData) (new WaterData(server, port)));
+    }
+    
+    /**
+     * @description : 开始发送（启动线程）
+     * @author      : Liu Siyuan
+     * @Date        : 2018年4月10日 下午3:02:45
+     * @version 1.0.0
+     */
+    public void start() {
+        isRun = true;
         startSender();
+    }
+    
+    /**
+     * @description : 停止发送（各线程）
+     * @author      : Liu Siyuan
+     * @Date        : 2018年4月10日 下午3:02:45
+     * @version 1.0.0
+     */
+    public void stop() {
+        isRun = false;
+        if(mainTimer != null) {
+            mainTimer.cancel();
+            mainTimer = null;
+        }
+    }
+    
+
+    public void reset() {
+        deviceList.clear();
+        deviceIdArr = null;
     }
     
     /**
@@ -71,8 +96,8 @@ public class Controller {
      * @version 1.0.0
      */
     private void startSender() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        mainTimer = new Timer();
+        mainTimer.scheduleAtFixedRate(new TimerTask() {
             
             @Override
             public void run() {
@@ -83,7 +108,7 @@ public class Controller {
                     continue;
                 }
             }
-        }, 1000,  600 * 1000);
+        }, 1000,  sendCycle * 60 * 1000);//发送周期，可配置
     }
     
     /**
@@ -93,10 +118,13 @@ public class Controller {
      * @version 1.0.0
      */
     private void deviceSend(IDeviceData deviceData) {
-        for(String deviceId : deviceIdArr) {
+        for(String deviceId : deviceIdArr) {//发送设备号（可配置）
+            if(!isRun) {
+                break;
+            }
             deviceData.setDeviceId(deviceId);
             deviceData.setAutoFullFactor(autoFullFactor == 1);
-            deviceData.setFactorStyle(styleJO);
+            deviceData.setFactorStyle(factorStyleJO);
             try {
                 String mess = SenderClient.startSocketClient(deviceData);
                 callbackPrint(mess);
@@ -145,8 +173,8 @@ public class Controller {
                 }
             }
             
-            // 因子
-            styleJO = configJO.getJSONObject("factorList");
+            // 发送因子，配置
+            factorStyleJO = configJO.getJSONObject("factorList");
             
             // 获取设备号
             String deviceIds = configJO.getString("deviceIds");
@@ -174,4 +202,6 @@ public class Controller {
             callback.updateTitle(title);
         }
     }
+
+    
 }
