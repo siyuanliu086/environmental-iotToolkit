@@ -227,17 +227,15 @@ public class MainFrame {
             stopButton.setEnabled(true);
             
             startTimeMillis = System.currentTimeMillis();
-            if(mTopTimer == null) {
-                mTopTimer = new Timer();
-                mTopTimer.schedule(new TimerTask() {
-                    
-                    @Override
-                    public void run() {
-                        String title = Controller.getInstance().getTitle();
-                        frame.setTitle(title + "--" + getTimeSpend());
-                    }
-                }, 0, 1000);
-            }
+            mTopTimer = new Timer();
+            mTopTimer.schedule(new TimerTask() {
+                
+                @Override
+                public void run() {
+                    String title = Controller.getInstance().getTitle();
+                    frame.setTitle(title + "  " + getTimeSpend());
+                }
+            }, 0, 600);
         } else {
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
@@ -257,7 +255,10 @@ public class MainFrame {
         // 按钮状态重置
         setRunState(false);
         // 重置标题
-        frame.setTitle(Controller.getInstance().getTitle() + "--" + getTimeSpend());
+        frame.setTitle(Controller.TITLE);
+        // 列表清空
+        DefaultListModel<String> empDlm = new DefaultListModel<String>();
+        contentList.setModel(empDlm);
     }
     
     /**
