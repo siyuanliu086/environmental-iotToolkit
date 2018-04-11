@@ -168,19 +168,45 @@ public class DeviceData implements IDeviceData{
         String dataTime = sdf.format(new Date());
         
         stArea.append("DataTime=" + dataTime + ";");
-        stArea.append("CO-Rtd=").append(CO).append(",CO-Flag=N;");
-        stArea.append("NO2-Rtd=").append(NO2).append(",NO2-Flag=N;");
-        stArea.append("SO2-Rtd=").append(SO2).append(",SO2-Flag=N;");
-        stArea.append("O3-Rtd=").append(O3).append(",O3-Flag=N;");
-        stArea.append("NOIS-Rtd=").append(NOIS).append(",NOIS-Flag=N;");
-        stArea.append("PM25-Rtd=").append(PM25).append(",PM25-Flag=N;");
-        stArea.append("PM10-Rtd=").append(PM10).append(",PM10-Flag=N;");
-        stArea.append("TEM-Rtd=").append(TEM).append(",TEM-Flag=N;");
-        stArea.append("RH-Rtd=").append(RH).append(",RH-Flag=N;");
-        stArea.append("WD-Rtd=").append(WD).append(",WD-Flag=N;");
-        stArea.append("WS-Rtd=").append(WS).append(",WS-Flag=N;");
-        stArea.append("PA-Rtd=").append(PA).append(",PA-Flag=N;");
-        stArea.append("TSP-Rtd=").append(TSP).append(",TSP-Flag=N");
+        if(!StringUtil.isEmptyString(CO)) {            
+            stArea.append("CO-Rtd=").append(CO).append(",CO-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(NO2)) {            
+            stArea.append("NO2-Rtd=").append(NO2).append(",NO2-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(SO2)) {             
+            stArea.append("SO2-Rtd=").append(SO2).append(",SO2-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(O3)) {            
+            stArea.append("O3-Rtd=").append(O3).append(",O3-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(NOIS)) {            
+            stArea.append("NOIS-Rtd=").append(NOIS).append(",NOIS-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(PM25)) {            
+            stArea.append("PM25-Rtd=").append(PM25).append(",PM25-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(PM10)) {
+            stArea.append("PM10-Rtd=").append(PM10).append(",PM10-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(TEM)) {            
+            stArea.append("TEM-Rtd=").append(TEM).append(",TEM-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(RH)) {            
+            stArea.append("RH-Rtd=").append(RH).append(",RH-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(WD)) {
+            stArea.append("WD-Rtd=").append(WD).append(",WD-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(WS)) {            
+            stArea.append("WS-Rtd=").append(WS).append(",WS-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(PA)) {
+            stArea.append("PA-Rtd=").append(PA).append(",PA-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(TSP)) {
+            stArea.append("TSP-Rtd=").append(TSP).append(",TSP-Flag=N");
+        }
         stArea.append("&&");
         
         String CRC = Integer.toHexString(StringUtil.getCRC(stArea.toString())).toUpperCase();
@@ -245,7 +271,7 @@ public class DeviceData implements IDeviceData{
     }
 
     private float getRandomTemData() {
-        return 7 + random.nextInt(8);
+        return 16 + random.nextInt(6);
     }
 
     private Random random = new Random();

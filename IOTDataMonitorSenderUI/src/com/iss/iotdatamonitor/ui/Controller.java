@@ -143,7 +143,6 @@ public class Controller {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                autoFullFactor = 0;
             }
             
             // 因子
