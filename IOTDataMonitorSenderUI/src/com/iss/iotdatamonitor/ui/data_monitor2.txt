@@ -1,0 +1,1 @@
+{"title":"桓台大气模拟数据0410","deviceIds":"TEST001,TEST002","factorList":{"co":1.8,"co_err":1,"no2":34,"so2":48,"o3":12,"nois":70,"nois_err":1,"pm25":42,"pm10":48,"pm10_err":1,"pm10_err":1,"tem":18,"rh":39,"wd":340,"ws":3.2,"pa":972.7},"cycle":"10","auto_full_factor":1}
