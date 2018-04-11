@@ -100,7 +100,7 @@ public class NationalDeviceData implements IDeviceData {
         String TSP = "";
         if(factorStyle != null && factorStyle.containsKey("co")) {
             float co_ = factorStyle.getFloatValue("co");
-            int co_err = factorStyle.getInteger("co_err");
+            int co_err = factorStyle.containsKey("co_err") ? factorStyle.getInteger("co_err") : 0;
             CO = getRateValue(random, co_, co_err == 1);
         } else if(fullFactor){
             CO = String.valueOf(0.71f + getRandomFixedData() / 18.0f);
@@ -135,56 +135,56 @@ public class NationalDeviceData implements IDeviceData {
         }
         if(factorStyle != null && factorStyle.containsKey("pm25")) {
             float pm25_ = factorStyle.getFloatValue("pm25");
-            int pm25_err = factorStyle.containsKey("pm25_err") ? factorStyle.getInteger("pm25") : 0;
+            int pm25_err = factorStyle.containsKey("pm25_err") ? factorStyle.getInteger("pm25_err") : 0;
             PM25 = getRateValue(random, pm25_, pm25_err == 1);
         } else if(fullFactor){
             PM25 = String.valueOf(17f + getRandomFixedData());
         }
         if(factorStyle != null && factorStyle.containsKey("pm10")) {
             float pm10_ = factorStyle.getFloatValue("pm10");
-            int pm10_err = factorStyle.containsKey("pm10_err") ? factorStyle.getInteger("pm10") : 0;
+            int pm10_err = factorStyle.containsKey("pm10_err") ? factorStyle.getInteger("pm10_err") : 0;
             PM10 = getRateValue(random, pm10_, pm10_err == 1);
         } else if(fullFactor){
             PM10 = String.valueOf(18f + getRandomFixedData());
         }
         if(factorStyle != null && factorStyle.containsKey("tem")) {
             float tem_ = factorStyle.getFloatValue("tem");
-            int tem_err = factorStyle.containsKey("tem_err") ? factorStyle.getInteger("tem") : 0;
+            int tem_err = factorStyle.containsKey("tem_err") ? factorStyle.getInteger("tem_err") : 0;
             TEM = getRateValue(random, tem_, tem_err == 1);
         } else if(fullFactor){
             TEM = String.valueOf(getRandomTemData());
         }
         if(factorStyle != null && factorStyle.containsKey("rh")) {
             float rh_ = factorStyle.getFloatValue("rh");
-            int rh_err = factorStyle.containsKey("rh_err") ? factorStyle.getInteger("rh") : 0;
+            int rh_err = factorStyle.containsKey("rh_err") ? factorStyle.getInteger("rh_err") : 0;
             RH = getRateValue(random, rh_, rh_err == 1);
         } else if(fullFactor){
             RH = String.valueOf(51f + getRandomFixedData());
         }
         if(factorStyle != null && factorStyle.containsKey("wd")) {
             float wd_ = factorStyle.getFloatValue("wd");
-            int wd_err = factorStyle.containsKey("wd_err") ? factorStyle.getInteger("wd") : 0;
+            int wd_err = factorStyle.containsKey("wd_err") ? factorStyle.getInteger("wd_err") : 0;
             WD = getRateValue(random, wd_, wd_err == 1);
         } else if(fullFactor){
             WD = String.valueOf(getRandomFixedData());
         }
         if(factorStyle != null && factorStyle.containsKey("ws")) {
             float ws_ = factorStyle.getFloatValue("ws");
-            int ws_err = factorStyle.containsKey("ws_err") ? factorStyle.getInteger("ws") : 0;
+            int ws_err = factorStyle.containsKey("ws_err") ? factorStyle.getInteger("ws_err") : 0;
             WS = getRateValue(random, ws_, ws_err == 1);
         } else if(fullFactor){
             WS = String.valueOf(1 + getRandomFixedData() / 2.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("pa")) {
             float pa_ = factorStyle.getFloatValue("pa");
-            int pa_err = factorStyle.containsKey("pa_err") ? factorStyle.getInteger("pa") : 0;
+            int pa_err = factorStyle.containsKey("pa_err") ? factorStyle.getInteger("pa_err") : 0;
             PA = getRateValue(random, pa_, pa_err == 1);
         } else if(fullFactor){
             PA = String.valueOf(getRandomPaData());
         }
         if(factorStyle != null && factorStyle.containsKey("tsp")) {
             float tsp_ = factorStyle.getFloatValue("tsp");
-            int tsp_err = factorStyle.containsKey("tsp_err") ? factorStyle.getInteger("tsp") : 0;
+            int tsp_err = factorStyle.containsKey("tsp_err") ? factorStyle.getInteger("tsp_err") : 0;
             TSP = getRateValue(random, tsp_, tsp_err == 1);
         } else if(fullFactor){
             TSP = String.valueOf(getRandomFixedData());
