@@ -79,7 +79,7 @@ public class MainFrame {
         frame.setBounds(100, 100, 750, 492);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/images/iot_icon.png")));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/images/icon_send.png")));
         frame.setResizable(false);
         
         JLabel typeLabel = new JLabel("选择类型：");
