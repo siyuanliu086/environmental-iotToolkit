@@ -90,7 +90,7 @@ public class MainFrame {
         String[] item = new String[] {
                 "大气-简标212",
                 "大气-国标212",
-                "大气-TVOC",
+                "空气污染-TVOC",
                 "地表水-国标212",
                 "位置-简标212"
         };
