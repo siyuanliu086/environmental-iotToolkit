@@ -1,0 +1,1 @@
+{"title":"桓台大气模拟数据0410","deviceIds":"MONI_TVOC001,MONI_TVOC002","factorList":{"cod":12,"cod_err":0},"cycle":"1","auto_full_factor":0}
