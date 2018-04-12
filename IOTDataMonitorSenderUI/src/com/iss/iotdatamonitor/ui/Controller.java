@@ -14,6 +14,7 @@ import com.datamonitor.message.NationalDeviceData;
 import com.datamonitor.message.TVOCDeviceData;
 import com.datamonitor.message.WaterData;
 import com.datamonitor.sender.SenderClient;
+import com.datamonitor.utils.StringUtil;
 import com.iss.iotdatamonitor.tools.FileHelper;
 
 public class Controller {
@@ -21,11 +22,11 @@ public class Controller {
     
     private static final int TIME_SLEEP = 5;//休眠5秒
     
-    private String title;
+    private String title = TITLE;
     private int type;//发送类型
     private String[] deviceIdArr;// 设备编号
     private int sendCycle = 10;// 默认10分钟
-    private int autoFullFactor = 0;//默认补全全部因子
+    private int autoFullFactor = 1;//默认补全全部因子
     private JSONObject factorStyleJO;//因子规范 
     
     
@@ -156,7 +157,9 @@ public class Controller {
             String config = FileHelper.readTxt(path, "UTF-8");
             JSONObject configJO = JSONObject.parseObject(config);
             // 设置标题
-            title = configJO.getString("title");
+            if(configJO.containsKey("title")) {
+                title = configJO.getString("title");
+            }
             callbackTitle(title);
             
             // 周期
@@ -175,15 +178,23 @@ public class Controller {
                     autoFullFactor = configJO.getIntValue("auto_full_factor");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    autoFullFactor = 1;
                 }
             }
             
             // 发送因子，配置
-            factorStyleJO = configJO.getJSONObject("factorList");
+            if(configJO.containsKey("factorList")) {                
+                factorStyleJO = configJO.getJSONObject("factorList");
+            }
             
             // 获取设备号
             String deviceIds = configJO.getString("deviceIds");
-            deviceIdArr = deviceIds.split(",");
+            if(StringUtil.isEmptyString(deviceIds)) {
+                callbackPrint("ERROR!", "配置文件异常：未定义设备编号！");
+                deviceIdArr = new String[] {};
+            } else {                
+                deviceIdArr = deviceIds.split(",");
+            }
         } else {
             callbackPrint("ERROR!", "文件异常！");
         }
