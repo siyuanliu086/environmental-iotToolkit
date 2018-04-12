@@ -167,7 +167,7 @@ public class WaterData implements IDeviceData {
             int cu_err = factorStyle.containsKey("cu_err") ? factorStyle.getInteger("cu_err") : 0;
             CU = getRateValue(random, cu_, cu_err == 1);
         } else if(fullFactor){
-            CU = String.format("%.5f", getRandomFixedData()/ 1200.0f - 0.001f);
+            CU = String.format("%.5f", getRandomFixedData()/ 1200.0f + 0.001f);
         }
         if(factorStyle != null && factorStyle.containsKey("ws")) {
             float ws_ = factorStyle.getFloatValue("ws");
@@ -244,7 +244,7 @@ public class WaterData implements IDeviceData {
             int oil_err = factorStyle.containsKey("oil_err") ? factorStyle.getInteger("oil_err") : 0;
             Oil = getRateValue(random, oil_, oil_err == 1);
         } else if(fullFactor){
-            Oil = String.valueOf(0.03f + getRandomFixedData() / 250.0f);
+            Oil = anionics = String.format("%.4f", 0.03f + getRandomFixedData() / 250.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("anionics")) {
             float anionics_ = factorStyle.getFloatValue("anionics");
@@ -399,7 +399,7 @@ public class WaterData implements IDeviceData {
      */
     public static int getDecimal(float num) {
         String numStr = String.valueOf(num);
-        if(numStr.contains(".") && !numStr.endsWith(".0")) {
+        if(numStr.contains(".")) {
             numStr = numStr.replace('.', ';');
             String[] ss = numStr.split(";");
             return ss[1].length();
