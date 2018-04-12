@@ -1,5 +1,6 @@
 package com.iss.iotcheck.plugin;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -263,7 +264,7 @@ public class ProcessWater212 implements IProcessing {
 			}
 			// 铜
 			if (allDataData.containsKey("w20122-Rtd") && !allDataData.get("w20122-Rtd").equals(null)) {
-			    tmpdata.setCu(Double.parseDouble(allDataData.get("w20122-Rtd")));
+			    tmpdata.setCu(new BigDecimal(allDataData.get("w20122-Rtd")));
 			}
 			// 锌
 			if (allDataData.containsKey("w20139-Rtd") && !allDataData.get("w20139-Rtd").equals(null)) {
@@ -279,11 +280,11 @@ public class ProcessWater212 implements IProcessing {
 			}
 			// 汞
 			if (allDataData.containsKey("w20142-Rtd") && !allDataData.get("w20142-Rtd").equals(null)) {
-			    tmpdata.setHg(Double.parseDouble(allDataData.get("w20142-Rtd")));
+			    tmpdata.setHg(new BigDecimal(allDataData.get("w20142-Rtd")));
 			}
 			// 镉
 			if (allDataData.containsKey("w20143-Rtd") && !allDataData.get("w20143-Rtd").equals(null)) {
-				tmpdata.setCd(Double.parseDouble(allDataData.get("w20143-Rtd")));
+				tmpdata.setCd(new BigDecimal(allDataData.get("w20143-Rtd")));
 			}
 			// 六价铬
 			if (allDataData.containsKey("w20117-Rtd") && !allDataData.get("w20117-Rtd").equals(null)) {

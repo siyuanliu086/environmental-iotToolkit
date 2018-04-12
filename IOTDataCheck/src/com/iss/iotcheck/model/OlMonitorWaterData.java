@@ -1,6 +1,7 @@
 package com.iss.iotcheck.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class OlMonitorWaterData implements IotData, Serializable{
@@ -39,7 +40,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String targetLevel;
 
-    private Double Cod;
+    private double Cod;
 
     private Integer  CodLevel;
 
@@ -47,7 +48,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  CodBrokenLineState;
 
-    private Double Bod;
+    private double Bod;
 
     private Integer  BodLevel;
 
@@ -55,7 +56,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  BodBrokenLineState;
 
-    private Double  NH3NH4;
+    private double  NH3NH4;
 
     private Integer   NH3NH4Level;
 
@@ -63,7 +64,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String   NH3NH4BrokenLineState;
 
-    private Double KMnO4;
+    private double KMnO4;
 
     private Integer  KMnO4Level;
 
@@ -71,7 +72,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  KMnO4BrokenLineState;
 
-    private Double PH;
+    private double PH;
 
     private Integer  PHLevel;
 
@@ -79,7 +80,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  PHBrokenLineState;
 
-    private Double DO;
+    private double DO;
 
     private Integer  DOLevel;
 
@@ -87,7 +88,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  DOBrokenLineState;
 
-    private Double Conductivity;
+    private double Conductivity;
 
     private Integer  ConductivityLevel;
 
@@ -95,7 +96,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  ConductivityBrokenLineState;
 
-    private Double FTU;
+    private double FTU;
 
     private Integer  FTULevel;
 
@@ -103,7 +104,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  FTUBrokenLineState;
 
-    private Double Temperature;
+    private double Temperature;
 
     private Integer  TemperatureLevel;
 
@@ -111,7 +112,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  TemperatureBrokenLineState;
 
-    private Double TP;
+    private double TP;
 
     private Integer  TPLevel;
 
@@ -119,7 +120,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  TPBrokenLineState;
 
-    private Double TN;
+    private double TN;
 
     private Integer  TNLevel;
 
@@ -127,7 +128,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  TNBrokenLineState;
 
-    private Double Cu;
+    private BigDecimal Cu;
 
     private Integer  CuLevel;
 
@@ -135,7 +136,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  CuBrokenLineState;
 
-    private Double Zn;
+    private double Zn;
 
     private Integer  ZnLevel;
 
@@ -143,7 +144,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  ZnBrokenLineState;
 
-    private Double F;
+    private double F;
 
     private Integer  FLevel;
 
@@ -151,7 +152,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  FBrokenLineState;
 
-    private Double As;
+    private double As;
 
     private Integer  AsLevel;
 
@@ -159,7 +160,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  AsBrokenLineState;
 
-    private Double Hg;
+    private BigDecimal Hg;
 
     private Integer  HgLevel;
 
@@ -167,7 +168,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  HgBrokenLineState;
 
-    private Double Cd;
+    private BigDecimal Cd;
 
     private Integer  CdLevel;
 
@@ -175,7 +176,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  CdBrokenLineState;
 
-    private Double Cr6;
+    private double Cr6;
 
     private Integer  Cr6Level;
 
@@ -183,7 +184,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  Cr6BrokenLineState;
 
-    private Double Pb;
+    private double Pb;
 
     private Integer  PbLevel;
 
@@ -191,7 +192,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  PbBrokenLineState;
 
-    private Double Fe;
+    private double Fe;
 
     private Integer  FeLevel;
 
@@ -199,7 +200,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  FeBrokenLineState;
 
-    private Double CN;
+    private double CN;
 
     private Integer  CNLevel;
 
@@ -207,7 +208,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  CNBrokenLineState;
 
-    private Double ArOH;
+    private double ArOH;
 
     private Integer  ArOHLevel;
 
@@ -215,7 +216,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  ArOHBrokenLineState;
 
-    private Double Oil;
+    private double Oil;
 
     private Integer  OilLevel;
 
@@ -223,7 +224,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  OilBrokenLineState;
 
-    private Double anionics;
+    private double anionics;
 
     private Integer  anionicsLevel;
 
@@ -231,7 +232,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  anionicsBrokenLineState;
 
-    private Double sulfide;
+    private double sulfide;
 
     private Integer  sulfideLevel;
 
@@ -239,7 +240,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  sulfideBrokenLineState;
 
-    private Double NO3N;
+    private double NO3N;
 
     private Integer  NO3NLevel;
 
@@ -247,7 +248,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  NO3NBrokenLineState;
 
-    private Double biotoxicity;
+    private double biotoxicity;
 
     private Integer  biotoxicityLevel;
 
@@ -255,7 +256,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  biotoxicityBrokenLineState;
 
-    private Double chlorophyla;
+    private double chlorophyla;
 
     private Integer  chlorophylaLevel;
 
@@ -263,7 +264,7 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
     private String  chlorophylaBrokenLineState;
 
-    private Double algae;
+    private double algae;
 
     private Integer  algaeLevel;
 
@@ -471,14 +472,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getCod() {
+    public double getCod() {
         return Cod;
     }
 
 
 
     
-    public void setCod(Double cod) {
+    public void setCod(double cod) {
         Cod = cod;
     }
 
@@ -527,14 +528,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getBod() {
+    public double getBod() {
         return Bod;
     }
 
 
 
     
-    public void setBod(Double bod) {
+    public void setBod(double bod) {
         Bod = bod;
     }
 
@@ -583,14 +584,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getNH3NH4() {
+    public double getNH3NH4() {
         return NH3NH4;
     }
 
 
 
     
-    public void setNH3NH4(Double nH3NH4) {
+    public void setNH3NH4(double nH3NH4) {
         NH3NH4 = nH3NH4;
     }
 
@@ -639,14 +640,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getKMnO4() {
+    public double getKMnO4() {
         return KMnO4;
     }
 
 
 
     
-    public void setKMnO4(Double kMnO4) {
+    public void setKMnO4(double kMnO4) {
         KMnO4 = kMnO4;
     }
 
@@ -695,14 +696,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getPH() {
+    public double getPH() {
         return PH;
     }
 
 
 
     
-    public void setPH(Double pH) {
+    public void setPH(double pH) {
         PH = pH;
     }
 
@@ -751,14 +752,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getDO() {
+    public double getDO() {
         return DO;
     }
 
 
 
     
-    public void setDO(Double dO) {
+    public void setDO(double dO) {
         DO = dO;
     }
 
@@ -807,14 +808,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getConductivity() {
+    public double getConductivity() {
         return Conductivity;
     }
 
 
 
     
-    public void setConductivity(Double conductivity) {
+    public void setConductivity(double conductivity) {
         Conductivity = conductivity;
     }
 
@@ -863,14 +864,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getFTU() {
+    public double getFTU() {
         return FTU;
     }
 
 
 
     
-    public void setFTU(Double fTU) {
+    public void setFTU(double fTU) {
         FTU = fTU;
     }
 
@@ -919,14 +920,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getTemperature() {
+    public double getTemperature() {
         return Temperature;
     }
 
 
 
     
-    public void setTemperature(Double temperature) {
+    public void setTemperature(double temperature) {
         Temperature = temperature;
     }
 
@@ -975,14 +976,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getTP() {
+    public double getTP() {
         return TP;
     }
 
 
 
     
-    public void setTP(Double tP) {
+    public void setTP(double tP) {
         TP = tP;
     }
 
@@ -1031,14 +1032,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getTN() {
+    public double getTN() {
         return TN;
     }
 
 
 
     
-    public void setTN(Double tN) {
+    public void setTN(double tN) {
         TN = tN;
     }
 
@@ -1087,14 +1088,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getCu() {
+    public BigDecimal getCu() {
         return Cu;
     }
 
 
 
     
-    public void setCu(Double cu) {
+    public void setCu(BigDecimal cu) {
         Cu = cu;
     }
 
@@ -1143,14 +1144,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getZn() {
+    public double getZn() {
         return Zn;
     }
 
 
 
     
-    public void setZn(Double zn) {
+    public void setZn(double zn) {
         Zn = zn;
     }
 
@@ -1199,14 +1200,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getF() {
+    public double getF() {
         return F;
     }
 
 
 
     
-    public void setF(Double f) {
+    public void setF(double f) {
         F = f;
     }
 
@@ -1255,14 +1256,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getAs() {
+    public double getAs() {
         return As;
     }
 
 
 
     
-    public void setAs(Double as) {
+    public void setAs(double as) {
         As = as;
     }
 
@@ -1311,14 +1312,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getHg() {
+    public BigDecimal getHg() {
         return Hg;
     }
 
 
 
     
-    public void setHg(Double hg) {
+    public void setHg(BigDecimal hg) {
         Hg = hg;
     }
 
@@ -1367,14 +1368,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getCd() {
+    public BigDecimal getCd() {
         return Cd;
     }
 
 
 
     
-    public void setCd(Double cd) {
+    public void setCd(BigDecimal cd) {
         Cd = cd;
     }
 
@@ -1423,14 +1424,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getCr6() {
+    public double getCr6() {
         return Cr6;
     }
 
 
 
     
-    public void setCr6(Double cr6) {
+    public void setCr6(double cr6) {
         Cr6 = cr6;
     }
 
@@ -1479,14 +1480,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getPb() {
+    public double getPb() {
         return Pb;
     }
 
 
 
     
-    public void setPb(Double pb) {
+    public void setPb(double pb) {
         Pb = pb;
     }
 
@@ -1535,14 +1536,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getFe() {
+    public double getFe() {
         return Fe;
     }
 
 
 
     
-    public void setFe(Double fe) {
+    public void setFe(double fe) {
         Fe = fe;
     }
 
@@ -1591,14 +1592,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getCN() {
+    public double getCN() {
         return CN;
     }
 
 
 
     
-    public void setCN(Double cN) {
+    public void setCN(double cN) {
         CN = cN;
     }
 
@@ -1647,14 +1648,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getArOH() {
+    public double getArOH() {
         return ArOH;
     }
 
 
 
     
-    public void setArOH(Double arOH) {
+    public void setArOH(double arOH) {
         ArOH = arOH;
     }
 
@@ -1703,14 +1704,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getOil() {
+    public double getOil() {
         return Oil;
     }
 
 
 
     
-    public void setOil(Double oil) {
+    public void setOil(double oil) {
         Oil = oil;
     }
 
@@ -1759,14 +1760,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getAnionics() {
+    public double getAnionics() {
         return anionics;
     }
 
 
 
     
-    public void setAnionics(Double anionics) {
+    public void setAnionics(double anionics) {
         this.anionics = anionics;
     }
 
@@ -1815,14 +1816,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getSulfide() {
+    public double getSulfide() {
         return sulfide;
     }
 
 
 
     
-    public void setSulfide(Double sulfide) {
+    public void setSulfide(double sulfide) {
         this.sulfide = sulfide;
     }
 
@@ -1871,14 +1872,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getNO3N() {
+    public double getNO3N() {
         return NO3N;
     }
 
 
 
     
-    public void setNO3N(Double nO3N) {
+    public void setNO3N(double nO3N) {
         NO3N = nO3N;
     }
 
@@ -1927,14 +1928,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getBiotoxicity() {
+    public double getBiotoxicity() {
         return biotoxicity;
     }
 
 
 
     
-    public void setBiotoxicity(Double biotoxicity) {
+    public void setBiotoxicity(double biotoxicity) {
         this.biotoxicity = biotoxicity;
     }
 
@@ -1983,14 +1984,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getChlorophyla() {
+    public double getChlorophyla() {
         return chlorophyla;
     }
 
 
 
     
-    public void setChlorophyla(Double chlorophyla) {
+    public void setChlorophyla(double chlorophyla) {
         this.chlorophyla = chlorophyla;
     }
 
@@ -2039,14 +2040,14 @@ public class OlMonitorWaterData implements IotData, Serializable{
 
 
     
-    public Double getAlgae() {
+    public double getAlgae() {
         return algae;
     }
 
 
 
     
-    public void setAlgae(Double algae) {
+    public void setAlgae(double algae) {
         this.algae = algae;
     }
 
