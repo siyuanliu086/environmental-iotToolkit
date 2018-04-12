@@ -103,9 +103,12 @@ public class Controller {
             
             @Override
             public void run() {
-                for(IDeviceData deviceData : deviceList) {
-                    if(deviceData.getDataType() == type) {
-                        deviceSend(deviceData);
+                for(int i = 0; i < deviceList.size(); i ++) {
+                    if(deviceList.size() > i) {// 重置时会处理deviceList
+                        IDeviceData deviceData = deviceList.get(i);
+                        if(deviceData.getDataType() == type) {
+                            deviceSend(deviceData);
+                        }
                     }
                     continue;
                 }
