@@ -57,7 +57,6 @@ public class WaterData implements IDeviceData {
         stArea.append(getDeviceType()).append(";");
         stArea.append("CN=2011;PW=123456;MN="+deviceId+";");
         stArea.append("CP=&&");
-        DecimalFormat df5 =  new DecimalFormat("#.#####");
         
         String Cod = "";
         String Bod = "";
@@ -98,7 +97,7 @@ public class WaterData implements IDeviceData {
             int bod_err = factorStyle.containsKey("bod_err") ? factorStyle.getInteger("bod_err") : 0;
             Bod = getRateValue(random, bod_, bod_err == 1);
         } else if(fullFactor){
-            Bod = String.valueOf(getRandomFixedData() / 3.1f);
+            Bod = String.format("%.2f", getRandomFixedData() / 3.1f);
         }
         if(factorStyle != null && factorStyle.containsKey("nh3nh4")) {
             float nh3nh4_ = factorStyle.getFloatValue("nh3nh4");
@@ -147,77 +146,77 @@ public class WaterData implements IDeviceData {
             int temperature_err = factorStyle.containsKey("temperature_err") ? factorStyle.getInteger("temperature_err") : 0;
             Temperature = getRateValue(random, temperature_, temperature_err == 1);
         } else if(fullFactor){
-            Temperature = String.valueOf(getRandomTemData());
+            Temperature = String.format("%.2f", getRandomTemData());
         }
         if(factorStyle != null && factorStyle.containsKey("tp")) {
             float tp_ = factorStyle.getFloatValue("tp");
             int tp_err = factorStyle.containsKey("tp_err") ? factorStyle.getInteger("tp_err") : 0;
             TP = getRateValue(random, tp_, tp_err == 1);
         } else if(fullFactor){
-            TP = df5.format(getRandomFixedData() / 121.0f);
+            TP = String.format("%.2f", getRandomFixedData() / 121.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("tn")) {
             float tn_ = factorStyle.getFloatValue("tn");
             int tn_err = factorStyle.containsKey("tn_err") ? factorStyle.getInteger("tn_err") : 0;
             TN = getRateValue(random, tn_, tn_err == 1);
         } else if(fullFactor){
-            TN = df5.format(0.2f + getRandomFixedData() / 240.0f);
+            TN = String.format("%.2f", 0.2f + getRandomFixedData() / 240.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("cu")) {
             float cu_ = factorStyle.getFloatValue("cu");
             int cu_err = factorStyle.containsKey("cu_err") ? factorStyle.getInteger("cu_err") : 0;
             CU = getRateValue(random, cu_, cu_err == 1);
         } else if(fullFactor){
-            CU = df5.format(getRandomFixedData()/ 1200.0f - 0.001f);
+            CU = String.format("%.5f", getRandomFixedData()/ 1200.0f - 0.001f);
         }
         if(factorStyle != null && factorStyle.containsKey("ws")) {
             float ws_ = factorStyle.getFloatValue("ws");
             int ws_err = factorStyle.containsKey("ws_err") ? factorStyle.getInteger("ws_err") : 0;
             Zn = getRateValue(random, ws_, ws_err == 1);
         } else if(fullFactor){
-            Zn = String.valueOf(getRandomFixedData() / 12.0f);
+            Zn = String.format("%.2f", getRandomFixedData() / 12.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("f")) {
             float f_ = factorStyle.getFloatValue("f");
             int f_err = factorStyle.containsKey("f_err") ? factorStyle.getInteger("f_err") : 0;
             F = getRateValue(random, f_, f_err == 1);
         } else if(fullFactor){
-            F = String.valueOf(getRandomFixedData() / 12.0f);
+            F = String.format("%.2f", getRandomFixedData() / 12.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("as")) {
             float as_ = factorStyle.getFloatValue("as");
             int as_err = factorStyle.containsKey("as_err") ? factorStyle.getInteger("as_err") : 0;
             As = getRateValue(random, as_, as_err == 1);
         } else if(fullFactor){
-            As = String.valueOf(getRandomFixedData() / 240.0f);
+            As = String.format("%.2f", getRandomFixedData() / 240.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("hg")) {
             float hg_ = factorStyle.getFloatValue("hg");
             int hg_err = factorStyle.containsKey("hg_err") ? factorStyle.getInteger("hg_err") : 0;
             Hg = getRateValue(random, hg_, hg_err == 1);
         } else if(fullFactor){
-            Hg = df5.format(getRandomPaData()/ 24000.0f);
+            Hg = String.format("%.5f", getRandomPaData()/ 24000.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("cd")) {
             float cd_ = factorStyle.getFloatValue("cd");
             int cd_err = factorStyle.containsKey("cd_err") ? factorStyle.getInteger("cd_err") : 0;
             Cd = getRateValue(random, cd_, cd_err == 1);
         } else if(fullFactor){
-            Cd = df5.format(getRandomFixedData() / 2400.0f);
+            Cd = String.format("%.5f", getRandomFixedData() / 2400.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("pb")) {
             float pb_ = factorStyle.getFloatValue("pb");
             int pb_err = factorStyle.containsKey("pb_err") ? factorStyle.getInteger("pb_err") : 0;
             Pb = getRateValue(random, pb_, pb_err == 1);
         } else if(fullFactor){
-            Pb = df5.format(getRandomFixedData() / 240.0f);
+            Pb = String.format("%.2f", getRandomFixedData() / 240.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("cr6")) {
             float cr6_ = factorStyle.getFloatValue("cr6");
             int cr6_err = factorStyle.containsKey("cr6_err") ? factorStyle.getInteger("cr6_err") : 0;
             Cr6 = getRateValue(random, cr6_, cr6_err == 1);
         } else if(fullFactor){
-            Cr6 = String.valueOf(getRandomFixedData() / 240f);
+            Cr6 = String.format("%.2f", getRandomFixedData() / 240f);
         }
         if(factorStyle != null && factorStyle.containsKey("fe")) {
             float fe_ = factorStyle.getFloatValue("fe");
@@ -231,14 +230,14 @@ public class WaterData implements IDeviceData {
             int cn_err = factorStyle.containsKey("cn_err") ? factorStyle.getInteger("cn_err") : 0;
             Cn = getRateValue(random, cn_, cn_err == 1);
         } else if(fullFactor){
-            Cn = df5.format(getRandomFixedData() / 250.0f);
+            Cn = String.format("%.4f", getRandomFixedData() / 256.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("aroh")) {
             float aroh_ = factorStyle.getFloatValue("aroh");
             int aroh_err = factorStyle.containsKey("aroh_err") ? factorStyle.getInteger("aroh_err") : 0;
             ArOH = getRateValue(random, aroh_, aroh_err == 1);
         } else if(fullFactor){
-            ArOH = df5.format(getRandomFixedData()/ 1000.0f);
+            ArOH = String.format("%.5f", getRandomFixedData()/ 1000.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("oil")) {
             float oil_ = factorStyle.getFloatValue("oil");
@@ -252,14 +251,14 @@ public class WaterData implements IDeviceData {
             int anionics_err = factorStyle.containsKey("anionics_err") ? factorStyle.getInteger("anionics_err") : 0;
             anionics = getRateValue(random, anionics_, anionics_err == 1);
         } else if(fullFactor){
-            anionics = String.valueOf(getRandomFixedData()/ 80.0f);
+            anionics = String.format("%.2f", getRandomFixedData()/ 80.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("sulfide")) {
             float sulfide_ = factorStyle.getFloatValue("sulfide");
             int sulfide_err = factorStyle.containsKey("sulfide_err") ? factorStyle.getInteger("sulfide_err") : 0;
             sulfide = getRateValue(random, sulfide_, sulfide_err == 1);
         } else if(fullFactor){
-            sulfide = String.valueOf(getRandomFixedData()/ 240.0f);
+            String.format("%.2f", getRandomFixedData()/ 240.0f);
         }
         if(factorStyle != null && factorStyle.containsKey("no3n")) {
             float no3n_ = factorStyle.getFloatValue("no3n");
