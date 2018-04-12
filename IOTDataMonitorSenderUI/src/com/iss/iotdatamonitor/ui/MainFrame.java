@@ -156,14 +156,20 @@ public class MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 获取选择类型编号
-                int selectIndex = 0;
+                int selectIndex = -1;
                 String selectedItem = comboBox.getSelectedItem().toString();
-                for(; selectIndex < item.length; selectIndex ++) {
-                    String name = item[selectIndex];
+                for(int i = 0; i < item.length; i ++) {
+                    String name = item[i];
                     if(selectedItem.equals(name)) {
+                        selectIndex = i;
                         break;
                     }
                 }
+                if(selectIndex == -1) {
+                    setListMessage("ERROR", "没有找到类型! ");
+                    return;
+                }
+                
                 
                 // 获取选择配置文件
                 String configFilePath = configTextField.getText().trim();
@@ -310,7 +316,7 @@ public class MainFrame {
         for(; index < dlm.getSize(); index ++) {
             addDlm.addElement(dlm.getElementAt(index));
         }
-        addDlm.addElement("---- send " + sdf.format(new Date()) + deviceId + "----");
+        addDlm.addElement("---- send " + sdf.format(new Date()) + " " + deviceId + "----");
         addDlm.addElement(mess);
         contentList.setModel(addDlm);
         
