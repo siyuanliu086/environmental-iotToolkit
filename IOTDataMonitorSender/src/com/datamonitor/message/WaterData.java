@@ -306,7 +306,7 @@ public class WaterData implements IDeviceData {
             stArea.append("w21001-Rtd=").append(TN).append(",w21001-Flag=N;");
         }
         if(!StringUtil.isEmptyString(CU)) {
-            stArea.append("w20122-Rtd=" + df5.format(CU)).append(",w20122-Flag=N;");
+            stArea.append("w20122-Rtd=").append(CU).append(",w20122-Flag=N;");
         }
         if(!StringUtil.isEmptyString(Zn)) {
             stArea.append("w20139-Rtd=").append(Zn).append(",w20139-Flag=N;");
