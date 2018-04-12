@@ -25,8 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.filechooser.FileFilter;
 
-import com.iss.iotcheck.MainWindow;
-
 public class IOTSenderMainFrame {
     // 面板区显示的信息条数（超出部分回收）
     private static final int BUFFER_SIZE = 40;
@@ -78,7 +76,7 @@ public class IOTSenderMainFrame {
         frame.setBounds(100, 100, 750, 492);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/images/icon_send.png")));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(IOTSenderMainFrame.class.getResource("/images/icon_send.png")));
         frame.setResizable(false);
         
         JLabel typeLabel = new JLabel("选择类型：");
