@@ -101,7 +101,7 @@ public class IOTSenderMainFrame {
         frame.getContentPane().add(configLabel);
         
         configTextField = new JTextField();
-        configTextField.setText("D:\\as_git\\environmental-iotToolkit\\IOTDataMonitorSenderUI\\src\\com\\iss\\iotdatamonitor\\ui\\data_monitor.txt");
+        configTextField.setText("D:\\02_iotsendtool\\data_monitor.txt");
         configTextField.setBounds(128, 38, 340, 21);
         frame.getContentPane().add(configTextField);
         configTextField.setColumns(10);
