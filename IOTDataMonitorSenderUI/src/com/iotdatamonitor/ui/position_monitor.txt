@@ -1,0 +1,1 @@
+{"title":"用户定位模拟数据0416","deviceIds":"67ae44f0-51a1-40f8-b463-2fe5d3541e92","factorList":{"type":1,"region":"110000","latitude":40.051179,"longitude":116.291765,"ADDRESS":"","SPEED":3.2,"DIRECTION":180,"HEIGHT":160,"SATELLITE":4},"cycle":"1","auto_full_factor":1}

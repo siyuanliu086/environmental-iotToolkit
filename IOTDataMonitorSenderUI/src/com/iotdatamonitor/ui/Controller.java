@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.iotdatamonitor.message.DeviceData;
 import com.iotdatamonitor.message.IDeviceData;
 import com.iotdatamonitor.message.NationalDeviceData;
+import com.iotdatamonitor.message.PositionData;
 import com.iotdatamonitor.message.TVOCDeviceData;
 import com.iotdatamonitor.message.WaterData;
 import com.iotdatamonitor.sender.SenderClient;
@@ -59,6 +60,7 @@ public class Controller {
         deviceList.add((IDeviceData) (new NationalDeviceData(server, port)));
         deviceList.add((IDeviceData) (new TVOCDeviceData(server, port)));
         deviceList.add((IDeviceData) (new WaterData(server, port)));
+        deviceList.add((IDeviceData) (new PositionData(server, port)));
     }
     
     /**
