@@ -1,4 +1,4 @@
-package com.datamonitor.utils;
+package com.iotdatamonitor.utils;
 
 public class StringUtil {
     /**

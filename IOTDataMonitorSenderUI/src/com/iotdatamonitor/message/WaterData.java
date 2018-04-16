@@ -1,7 +1,7 @@
-package com.datamonitor.message;
+package com.iotdatamonitor.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.datamonitor.utils.StringUtil;
+import com.iotdatamonitor.utils.StringUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

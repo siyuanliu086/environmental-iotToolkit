@@ -1,4 +1,4 @@
-package com.iotdatamonitor.tools;
+package com.iotdatamonitor.utils;
 
 import java.io.BufferedReader;
 import java.io.File;

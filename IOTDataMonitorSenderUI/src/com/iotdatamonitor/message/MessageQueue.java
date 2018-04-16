@@ -1,4 +1,4 @@
-package com.datamonitor.message;
+package com.iotdatamonitor.message;
 
 import java.util.LinkedList;
 

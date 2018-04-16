@@ -1,4 +1,4 @@
-package com.datamonitor.sender;
+package com.iotdatamonitor.sender;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,8 +10,8 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.datamonitor.message.CustomMq;
-import com.datamonitor.message.MessageQueue;
+import com.iotdatamonitor.message.CustomMq;
+import com.iotdatamonitor.message.MessageQueue;
 
 /**
  * 发送长连接

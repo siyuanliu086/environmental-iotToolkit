@@ -1,13 +1,34 @@
-package com.datamonitor.message;
+package com.iotdatamonitor.message;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 import com.alibaba.fastjson.JSONObject;
-import com.datamonitor.utils.StringUtil;
+import com.iotdatamonitor.utils.StringUtil;
 
-public class DeviceData implements IDeviceData{
+/**
+ * 国标数据模拟器
+ * @author Liu Siyuan
+ *
+    |编码 |    国标212|   中文名称 
+    |CO  |    a21005 |   一氧化碳
+    |NO2 |    a21004 |   二氧化氮
+    |SO2 |    a21026 |   二氧化硫 
+    |O3  |    a21030 |   臭氧
+    |NOIS|    LA     |   噪声
+    |PM25|    a34004 |   PM2.5
+    |PM10|    a34002 |   PM10 
+    |TEM |    a01001 |   温度
+    |RH  |    a01002 |   湿度
+    |WD  |    a01008 |   风向
+    |WS  |    a01007 |   风速
+    |PA  |    a01006 |   气压
+    |TSP |    a34001 |   扬尘
+ *
+ */
+public class NationalDeviceData implements IDeviceData {
     private String deviceId;
     
     private String server;
@@ -15,11 +36,15 @@ public class DeviceData implements IDeviceData{
     
     private String message;
     
-    private boolean fullFactor;
+    private String timeQN;
+    private String dataTime;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     
-    public DeviceData(String server, String port) {
+    public NationalDeviceData(String server, String port) {
         this.server = server;
         this.port = port;
+        timeQN = sdf.format(new Date());
+        dataTime = timeQN.substring(0, timeQN.length() - 3);
     }
     
     public void setDeviceId(String deviceId) {
@@ -52,10 +77,11 @@ public class DeviceData implements IDeviceData{
      * @Date 		: 2017年8月23日 下午4:53:57
      * @version 1.0.0
      */
-    //##299ST=22;CN=2011;PW=;MN=100000000AM1975;CP=&&DataTime=20171220040009;PM10-Rtd=69,PM10-Flag=N;PM25-Rtd=28,PM25-Flag=N;SO2-Rtd=23,SO2-Flag=N;CO-Rtd=1.3,CO-Flag=N;O3-Rtd=41,O3-Flag=N;NO2-Rtd=28,NO2-Flag=N;TEM-Rtd=18.54,TEM-Flag=N;RH-Rtd=13.58,RH-Flag=N;WD-Rtd=315.0,WD-Flag=N;WS-Rtd=2.45,WS-Flag=N&&d042
+    //##0481QN=20160801085000001;ST=22;CN=2011;PW=123456;MN=010000A8900016F000169DC0;Flag=7;CP=&&DataTime=20160801084000;a21005-Rtd=1.1,a21005-Flag=N;a21004-Rtd=112,a21004-Flag=N;a21026-Rtd=58,a21026-Flag=N;a21030-Rtd=64,a21030-Flag=N;LA-td=50.1,LA-Flag=N;a34004-Rtd=207,a34004-Flag=N;a34002-Rtd=295,a34002-Flag=N;a01001-Rtd=12.6,a01001-Flag=N;a01002-Rtd=32,a01002-Flag=N;a01006-Rtd=101.02,a01006-Flag=N;a01007-Rtd=2.1,a01007-Flag=N;a01008-Rtd=120,a01008-Flag=N;a34001-Rtd=217,a34001-Flag=N;&&7580
     public String getMessage() {
-        StringBuffer stArea = new StringBuffer("ST=");
-        stArea.append(getDeviceType()).append(";");
+        StringBuffer stArea = new StringBuffer("");
+        stArea.append("QN=").append(timeQN).append(";");
+        stArea.append("ST=").append(getDeviceType()).append(";");
         stArea.append("CN=2011;PW=123456;MN="+deviceId+";");
         stArea.append("CP=&&");
         
@@ -169,46 +195,46 @@ public class DeviceData implements IDeviceData{
         
         stArea.append("DataTime=" + dataTime + ";");
         if(!StringUtil.isEmptyString(CO)) {            
-            stArea.append("CO-Rtd=").append(CO).append(",CO-Flag=N;");
+            stArea.append("a21005-Rtd=").append(CO).append(",a21005-Flag=N;");
         }
         if(!StringUtil.isEmptyString(NO2)) {            
-            stArea.append("NO2-Rtd=").append(NO2).append(",NO2-Flag=N;");
+            stArea.append("a21004-Rtd=").append(NO2).append(",a21004-Flag=N;");
         }
         if(!StringUtil.isEmptyString(SO2)) {             
-            stArea.append("SO2-Rtd=").append(SO2).append(",SO2-Flag=N;");
+            stArea.append("a21026-Rtd=").append(SO2).append(",a21026-Flag=N;");
         }
         if(!StringUtil.isEmptyString(O3)) {            
-            stArea.append("O3-Rtd=").append(O3).append(",O3-Flag=N;");
+            stArea.append("a21030-Rtd=").append(O3).append(",a21030-Flag=N;");
         }
         if(!StringUtil.isEmptyString(NOIS)) {            
-            stArea.append("NOIS-Rtd=").append(NOIS).append(",NOIS-Flag=N;");
+            stArea.append("LA-Rtd=").append(NOIS).append(",LA-Flag=N;");
         }
         if(!StringUtil.isEmptyString(PM25)) {            
-            stArea.append("PM25-Rtd=").append(PM25).append(",PM25-Flag=N;");
+            stArea.append("a34004-Rtd=").append(PM25).append(",a34004-Flag=N;");
         }
         if(!StringUtil.isEmptyString(PM10)) {
-            stArea.append("PM10-Rtd=").append(PM10).append(",PM10-Flag=N;");
+            stArea.append("a34002-Rtd=").append(PM10).append(",a34002-Flag=N;");
         }
         if(!StringUtil.isEmptyString(TEM)) {            
-            stArea.append("TEM-Rtd=").append(TEM).append(",TEM-Flag=N;");
+            stArea.append("a01001-Rtd=").append(TEM).append(",a01001-Flag=N;");
         }
         if(!StringUtil.isEmptyString(RH)) {            
-            stArea.append("RH-Rtd=").append(RH).append(",RH-Flag=N;");
+            stArea.append("a01002-Rtd=").append(RH).append(",a01002-Flag=N;");
         }
         if(!StringUtil.isEmptyString(WD)) {
-            stArea.append("WD-Rtd=").append(WD).append(",WD-Flag=N;");
+            stArea.append("a01008-Rtd=").append(WD).append(",a01008-Flag=N;");
         }
         if(!StringUtil.isEmptyString(WS)) {            
-            stArea.append("WS-Rtd=").append(WS).append(",WS-Flag=N;");
+            stArea.append("a01007-Rtd=").append(WS).append(",a01007-Flag=N;");
         }
         if(!StringUtil.isEmptyString(PA)) {
-            stArea.append("PA-Rtd=").append(PA).append(",PA-Flag=N;");
+            stArea.append("a01006-Rtd=").append(PA).append(",a01006-Flag=N;");
         }
         if(!StringUtil.isEmptyString(TSP)) {
-            stArea.append("TSP-Rtd=").append(TSP).append(",TSP-Flag=N");
+            stArea.append("a34001-Rtd=").append(TSP).append(",a34001-Flag=N");
         }
-        stArea.append("&&");
         
+        stArea.append("&&");
         String CRC = Integer.toHexString(StringUtil.getCRC(stArea.toString())).toUpperCase();
         
         StringBuffer dataArea = new StringBuffer(stArea);
@@ -225,8 +251,8 @@ public class DeviceData implements IDeviceData{
     
     /**
      * @description : 将数值d在90.0%-110.0%之间波动(保持小数位数)
-     * @author 		: Liu Siyuan
-     * @Date 		: 2018年4月10日 下午4:03:49
+     * @author      : Liu Siyuan
+     * @Date        : 2018年4月10日 下午4:03:49
      * @version 1.0.0
      * @param isError 
      */
@@ -271,7 +297,8 @@ public class DeviceData implements IDeviceData{
     }
 
     private float getRandomTemData() {
-        return 16 + random.nextInt(6);
+        Double value = Math.pow(10, 1);
+        return 10 - (random.nextInt(value.intValue())) / 1.1f;
     }
 
     private Random random = new Random();
@@ -283,18 +310,18 @@ public class DeviceData implements IDeviceData{
     public String getDeviceType() {
         return AIR_MONITOR_MONITOR_212;
     }
-
+    
     @Override
     public int getDataType() {
-        return TYPE_AIR_SIM212;
+        return TYPE_AIR_NA212;
     }
-
+    
     private JSONObject factorStyle;
     @Override
     public void setFactorStyle(JSONObject jo) {
         factorStyle = jo;
     }
-
+    private boolean fullFactor;
     @Override
     public void setAutoFullFactor(boolean b) {
         fullFactor = b;

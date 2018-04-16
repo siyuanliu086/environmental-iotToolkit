@@ -1,10 +1,10 @@
-package com.datamonitor.sender;
+package com.iotdatamonitor.sender;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.datamonitor.message.CustomMq;
-import com.datamonitor.message.IDeviceData;
-import com.datamonitor.utils.StringUtil;
+import com.iotdatamonitor.message.CustomMq;
+import com.iotdatamonitor.message.IDeviceData;
+import com.iotdatamonitor.utils.StringUtil;
 
 public class SenderClient {
     // socket连接池
