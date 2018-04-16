@@ -1,4 +1,4 @@
-package com.iss.iotdatamonitor.ui;
+package com.iotdatamonitor.ui;
 
 import java.awt.EventQueue;
 import java.awt.SystemColor;
@@ -130,7 +130,8 @@ public class IOTSenderMainFrame {
         frame.getContentPane().add(serverLabel);
         
         serverTextField = new JTextField();
-        serverTextField.setText("49.4.6.49");
+        serverTextField.setText("127.0.0.1");
+//        serverTextField.setText("49.4.6.49");
         serverTextField.setColumns(10);
         serverTextField.setBounds(128, 66, 340, 21);
         frame.getContentPane().add(serverTextField);

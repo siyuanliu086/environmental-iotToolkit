@@ -1,4 +1,4 @@
-package com.iss.iotdatamonitor.ui;
+package com.iotdatamonitor.ui;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import com.datamonitor.message.TVOCDeviceData;
 import com.datamonitor.message.WaterData;
 import com.datamonitor.sender.SenderClient;
 import com.datamonitor.utils.StringUtil;
-import com.iss.iotdatamonitor.tools.FileHelper;
+import com.iotdatamonitor.tools.FileHelper;
 
 public class Controller {
     public static final String TITLE = "软通智慧环保IOT数据模拟发送工具";
@@ -54,6 +54,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        deviceList.clear();
         deviceList.add((IDeviceData) (new DeviceData(server, port)));
         deviceList.add((IDeviceData) (new NationalDeviceData(server, port)));
         deviceList.add((IDeviceData) (new TVOCDeviceData(server, port)));
