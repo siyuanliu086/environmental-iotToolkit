@@ -1,5 +1,7 @@
 package com.iotdatamonitor.message;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -104,6 +106,12 @@ public class PositionData implements IDeviceData{
             }
         } else if(fullFactor){
             ADDRESS = "北京市海淀区";
+        }
+        // 中文URL编码
+        try {
+            ADDRESS = URLEncoder.encode(ADDRESS, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
         if(factorStyle != null && factorStyle.containsKey("speed")) {
             float speed_ = factorStyle.getFloatValue("speed");
