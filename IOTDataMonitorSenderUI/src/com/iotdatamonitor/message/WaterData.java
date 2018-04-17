@@ -118,7 +118,7 @@ public class WaterData implements IDeviceData {
             int ph_err = factorStyle.containsKey("ph_err") ? factorStyle.getInteger("ph_err") : 0;
             PH = getRateValue(random, ph_, ph_err == 1);
         } else if(fullFactor){
-            PH = String.valueOf(6.8f + getRandomFixedData() / 10.0f);
+            PH = String.format("%.2f",(6.8f + getRandomFixedData() / 10.0f));
         }
         if(factorStyle != null && factorStyle.containsKey("do")) {
             float do_ = factorStyle.getFloatValue("do");
