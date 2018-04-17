@@ -11,6 +11,8 @@ public interface IProcessing {
     String AIR_MONITOR_MONITOR_212 = "22";
     /**空气污染监测系统编码*/
     String AIR_POLLUTE_MONITOR_212 = "31";
+    /**移动定位系统编码*/
+    String POSITION_MONITOR_212 = "65";
 	
 	/*
 	 * 检查数据是否是本协议的数据

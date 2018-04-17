@@ -27,7 +27,7 @@ import com.iss.iotcheck.plugin.IProcessing;
 public class IOTCheckMainWindow {
     private JFrame frame;
     private JTextArea infoTextArea;
-    private JRadioButton waterRadioButton, airRadioButton, gasButton, tvocBtnTvoc;
+    private JRadioButton waterRadioButton, airRadioButton, gasButton, tvocRadioButton, positionButton;
     private JLabel checkResult;
     private List<JRadioButton> radioButtonList;
     private JScrollPane resultPanel;
@@ -142,18 +142,36 @@ public class IOTCheckMainWindow {
             }
         });
         
-        tvocBtnTvoc = new JRadioButton("TVOC");
-        tvocBtnTvoc.setBackground(transparent);
-        tvocBtnTvoc.setBounds(420, 5, 100, 23);
-        mainPanel.add(tvocBtnTvoc);
-        radioButtonList.add(tvocBtnTvoc);
-        tvocBtnTvoc.addActionListener(new ActionListener() {
+        tvocRadioButton = new JRadioButton("TVOC");
+        tvocRadioButton.setBackground(transparent);
+        tvocRadioButton.setBounds(420, 5, 100, 23);
+        mainPanel.add(tvocRadioButton);
+        radioButtonList.add(tvocRadioButton);
+        tvocRadioButton.addActionListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 手动互斥
                 for(JRadioButton radio : radioButtonList) {
                     if(!"TVOC".equals(radio.getText())) {                        
+                        radio.setSelected(false);
+                    }
+                }
+            }
+        });
+        
+        positionButton = new JRadioButton("位置");
+        positionButton.setBackground(new Color(0, 0, 0, 0));
+        positionButton.setBounds(522, 5, 100, 23);
+        mainPanel.add(positionButton);
+        radioButtonList.add(positionButton);
+        positionButton.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 手动互斥
+                for(JRadioButton radio : radioButtonList) {
+                    if(!"位置".equals(radio.getText())) {                        
                         radio.setSelected(false);
                     }
                 }
@@ -181,8 +199,10 @@ public class IOTCheckMainWindow {
                     type = Integer.valueOf(IProcessing.SURFACE_WATER_MONITOR_212);
                 } else if(airRadioButton.isSelected()) {//气
                     type = Integer.valueOf(IProcessing.AIR_MONITOR_MONITOR_212);
-                } else if(tvocBtnTvoc.isSelected()) {//tvoc
+                } else if(tvocRadioButton.isSelected()) {//tvoc
                     type = Integer.valueOf(IProcessing.AIR_POLLUTE_MONITOR_212);
+                } else if(positionButton.isSelected()) {//位置
+                    type = Integer.valueOf(IProcessing.POSITION_MONITOR_212);
                 } else {
                     result = IOTCheck.RE_MN_EMP;
                     setCheckResult(result);
@@ -215,6 +235,8 @@ public class IOTCheckMainWindow {
         resultPanel.setBounds(110, 200, 590, 254);
 
         mainPanel.add(resultPanel);
+        
+        
     }
     
     private void setCheckResult(String result) {

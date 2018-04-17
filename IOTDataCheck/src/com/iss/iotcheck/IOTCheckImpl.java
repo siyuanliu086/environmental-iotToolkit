@@ -3,10 +3,12 @@ package com.iss.iotcheck;
 import java.util.List;
 
 import com.iss.iotcheck.model.OlMonitorMinData;
+import com.iss.iotcheck.model.OlMonitorPositionData;
 import com.iss.iotcheck.model.OlMonitorWaterData;
 import com.iss.iotcheck.plugin.IProcessing;
 import com.iss.iotcheck.plugin.NationalStandard212;
 import com.iss.iotcheck.plugin.Process212;
+import com.iss.iotcheck.plugin.ProcessPosition;
 import com.iss.iotcheck.plugin.ProcessTVOC212;
 import com.iss.iotcheck.plugin.ProcessWater212;
 import com.iss.iotcheck.tools.DateHelper;
@@ -138,6 +140,39 @@ public class IOTCheckImpl implements IOTCheck{
             + "<br/>sulfide: " + monitorMinData.getSulfide() + "<br/>NO3N: " + monitorMinData.getNO3N()
             + "<br/>biotoxicity: " + monitorMinData.getBiotoxicity() + "<br/>chlorophyl_a: " + monitorMinData.getChlorophyla()
             + "<br/>algae: " + monitorMinData.getAlgae()
+            + "</body>";
+        } else if(Integer.valueOf(IProcessing.POSITION_MONITOR_212) == type) {
+            IProcessing p = new ProcessPosition();
+            List<OlMonitorPositionData> minData = null;
+            if(p.CheckData(mess)) {
+                minData = (List<OlMonitorPositionData>) p.Process(mess);
+            } else {
+                return RE_HEADER_ERR;
+            }
+            
+            if(minData.size() == 0) {
+                if(!checkCRC(mess)) {
+                    // CRC检测错误
+                    return RE_CRC_ERR;
+                } else {                    
+                    // 不知道什么情况
+                    return RE_PROTOCOL212_OTHER_ERR;
+                }
+            }
+            OlMonitorPositionData monitorMinData = minData.get(0);
+            String deviceId = monitorMinData.getDeviceId();
+            // 检查设备号
+            if(!checkDevieId(deviceId)) {
+                return RE_PROTOCOL212_OTHER_ERR;
+            }
+            
+            // 结果
+            return "<html><body><b>检测成功>>></b><br/>设备: " + deviceId + "<br/>时间: " + DateHelper.format(monitorMinData.getMonitorTime())
+            + "<br/>Type: " + monitorMinData.getType() + (monitorMinData.getType().equals("1") ? "-手机" : "-GPS") + "<br/>Region: " + monitorMinData.getRegionCode()
+            + "<br/>address: " + monitorMinData.getAddress() + "<br/>longitude: " + monitorMinData.getLongitude()
+            + "<br/>latitude: " + monitorMinData.getLatitude() + "<br/>speed: " + monitorMinData.getSpeed()
+            + "<br/>direction: " + monitorMinData.getDirection() + "<br/>height: " + monitorMinData.getHeight()
+            + "<br/>satellite: " + monitorMinData.getSatellite()
             + "</body>";
         }
         return RE_CODE_OK;
