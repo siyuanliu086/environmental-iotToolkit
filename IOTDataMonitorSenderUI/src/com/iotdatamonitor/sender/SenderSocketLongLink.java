@@ -39,7 +39,6 @@ public class SenderSocketLongLink implements Runnable {
     @Override
     public void run(){
         BufferedWriter out = null;
-        InputStream inStr = null;
         try {
             socket = new Socket(this.addr, this.port);
             log("(" + addr + ")PORT:" + port + "\tSocket LINK SUCCESS！\t " + messageKey + " Sender-Socket");
@@ -68,6 +67,7 @@ public class SenderSocketLongLink implements Runnable {
         } finally {
             try {
                 SenderClient.socketManages.remove(messageKey);
+                out.close();
                 socket.close();
             } catch (Exception e2) {
                 e2.printStackTrace();
