@@ -1,1 +1,1 @@
-{"title":"桓台大气模拟数据0410","deviceIds":"MONI_TEST001,MONI_TEST002","factorList":{"pm25":42,"pm10":48,"pm10_err":1},"cycle":"1","auto_full_factor":0}
+{"title":"桓台大气模拟数据0410","deviceIds":"MONI_TEST001,MONI_TEST002,MONI_TEST003,MONI_TEST004","factorList":{"pm25":42,"pm10":48,"pm10_err":1},"cycle":"1","auto_full_factor":0}

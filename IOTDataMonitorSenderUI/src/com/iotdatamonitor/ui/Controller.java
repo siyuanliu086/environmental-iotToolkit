@@ -127,6 +127,7 @@ public class Controller {
      * @version 1.0.0
      */
     private void deviceSend(IDeviceData deviceData) {
+        int i = 0;
         for(String deviceId : deviceIdArr) {//发送设备号（可配置）
             if(!isRun) {
                 break;
@@ -140,10 +141,13 @@ public class Controller {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
-                Thread.sleep(TIME_SLEEP * 1000);
-            } catch (Exception e) {
-                e.printStackTrace();
+            i ++;
+            if(i % 100 == 0 && i < (deviceIdArr.length - 100)) {
+                try {
+                    Thread.sleep(100);// 每10条，休眠30ms
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
