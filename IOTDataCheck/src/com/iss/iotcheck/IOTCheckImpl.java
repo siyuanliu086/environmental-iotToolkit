@@ -79,6 +79,9 @@ public class IOTCheckImpl implements IOTCheck{
             } else {
                 // 输出TVOC监测因子+气象五参
                 return "<html><body><b>检测成功>>></b><br/>设备: " + deviceId + "<br/>时间: " + DateHelper.format(monitorMinData.getMonitorTime())
+                + "<br/>甲硫醇: " + monitorMinData.getCh4s() + "<br/>硫化氢:" + + monitorMinData.getH2s()
+                + "<br/>TVOC: " + monitorMinData.getTvocs() 
+                + "<br/>温度: " + monitorMinData.getTem() + "<br/>湿度: " + monitorMinData.getRh()
                 + "<br/>含氧量: " + monitorMinData.getO2_content() + "<br/>烟气流速: " + monitorMinData.getStack_gas_velocity()
                 + "<br/>烟气温度: " + monitorMinData.getGas_tem() + "<br/>烟气湿度: " + monitorMinData.getGas_rh()
                 + "<br/>烟气压力: " + monitorMinData.getGas_pa() + "<br/>废气: " + monitorMinData.getWaste_gas()

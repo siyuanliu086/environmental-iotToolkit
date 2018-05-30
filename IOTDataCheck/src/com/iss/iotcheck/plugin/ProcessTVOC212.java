@@ -263,6 +263,20 @@ public class ProcessTVOC212 implements IProcessing {
 			    tmpdata.setNox_zs(Double.parseDouble(allDataData.get("03-ZsRtd")));
 			}
 			
+			// 【恶臭浓度  v00000 】   ，甲硫醇   28   ，【氨    10】   ，TVOC  v01001 ，  硫化氢 05
+            if (allDataData.containsKey("05-Rtd") && !allDataData.get("05-Rtd").equals(null)) {
+                tmpdata.setH2s(Double.parseDouble(allDataData.get("05-Rtd")));
+            }
+//          if (allDataData.containsKey("10-Rtd") && !allDataData.get("10-Rtd").equals(null)) {
+//              tmpdata.setNox_zs(Double.parseDouble(allDataData.get("10-Rtd")));
+//          }
+            if (allDataData.containsKey("28-Rtd") && !allDataData.get("28-Rtd").equals(null)) {
+                tmpdata.setCh4s(Double.parseDouble(allDataData.get("28-Rtd")));
+            }
+            if (allDataData.containsKey("v01001-Rtd") && !allDataData.get("v01001-Rtd").equals(null)) {
+                tmpdata.setTvocs(Double.parseDouble(allDataData.get("v01001-Rtd")));
+            }
+			
 			// 附带大气监测(温度、湿度、气压、风速、风向)
 			if (allDataData.containsKey("TEM-Rtd") && !allDataData.get("TEM-Rtd").equals(null)) {
                 tmpdata.setTem(Double.parseDouble(allDataData.get("TEM-Rtd")));
