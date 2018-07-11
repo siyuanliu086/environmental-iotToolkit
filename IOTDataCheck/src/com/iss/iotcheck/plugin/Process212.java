@@ -18,7 +18,7 @@ public class Process212 implements IProcessing {
         String[] tempArr = data.split("ST=");
         if(tempArr.length == 2) {
             String systemCode = tempArr[1].substring(0, 2);
-            if (GetProcessSysCode().equals(systemCode)) {//系统编码22,大气环境监测
+            if (GetProcessSysCode().equals(systemCode) || "39".equals(systemCode)) {//系统编码22,大气环境监测
                 if (data.length() >= 2 && data.indexOf("##") >= 0 && !(data.contains("a34004") || data.contains("a01001"))) {//不包含PM2.5 或者温度的国标编码
                     result = true;
                 }

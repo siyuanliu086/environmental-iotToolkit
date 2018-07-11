@@ -1,5 +1,6 @@
 package com.iss.iotcheck.plugin;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.iss.iotcheck.model.IotData;
@@ -13,6 +14,8 @@ public interface IProcessing {
     String AIR_POLLUTE_MONITOR_212 = "31";
     /**移动定位系统编码*/
     String POSITION_MONITOR_212 = "65";
+    /**协议指定数据时间格式*/
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	/*
 	 * 检查数据是否是本协议的数据

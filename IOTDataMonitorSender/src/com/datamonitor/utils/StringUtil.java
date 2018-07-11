@@ -24,7 +24,9 @@ public class StringUtil {
     }
     
     public static void main(String[] args) {
-        System.out.println(Math.pow(10, 2));
+          String mess = "ST=22;CN=2011;PW=123456;MN=ES70C20180615001;CP=&&DataTime=20180619151200;PM10-Rtd=89.59,PM10-Flag=N;TSP-Rtd=133.71,TSP-Flag=N";
+//        String mess = "ST=22;CN=2011;PW=123456;MN=781703664AM0001;CP=&&DataTime=20150811151200;PM10-Rtd=89.59,PM10-Flag=N;TSP-Rtd=133.71,TSP-Flag=N&&";
+        System.out.println(getInteger2Hex(getCRC(mess)));
     }
     
     /**
