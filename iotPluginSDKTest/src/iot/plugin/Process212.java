@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import app.iot.process.database.entity.OlMonitorMinData;
-import app.iot.process.plugins.AbsProcessing;
+import app.iot.process.plugins.AbsProcessor;
 
-public class Process212 extends AbsProcessing {
+public class Process212 extends AbsProcessor {
 	/*
 	 * 检查数据是否是本协议的数据
 	 */
@@ -21,7 +21,7 @@ public class Process212 extends AbsProcessing {
             if (GetProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测 || (工地扬尘)
                 if (data.length() >= 2 && data.indexOf("##") >= 0 && !(data.contains("a34004") || data.contains("a01001"))) {//不包含PM2.5 或者温度的国标编码
                     result = true;
-                    printInfoLog("设备数据校验完成");
+                    writeDataLog("设备数据校验完成");
                 }
             }
         }
@@ -33,7 +33,7 @@ public class Process212 extends AbsProcessing {
 	 */
 	@Override
 	public List<OlMonitorMinData> Process(String command) {
-	    printInfoLog("收到设备预处理数据:" + command);
+	    writeDataLog("收到设备预处理数据:" + command);
 		List<OlMonitorMinData> result = new ArrayList<OlMonitorMinData>();
 		// 校验crc
 		// 校验长度；
@@ -85,9 +85,9 @@ public class Process212 extends AbsProcessing {
 		// }
 		// 校验crc
 		if (icrccomputer != icrckey) {
+		    writeDataLog("CRC 校验异常！" + icrccomputer);
 			return result;
 		}
-		printInfoLog("设备数据校验完成:");
 
 		// 头信息
 		HashMap<String, String> allHeaderData = new HashMap<String, String>();
@@ -117,14 +117,12 @@ public class Process212 extends AbsProcessing {
 				}
 			}
 		}
-		printInfoLog("设备数据解析完成:");
 		// 解析数据，判断是是否是主服务器，如果是主服务器就转发到从服务器上
 		OlMonitorMinData olmonitormin = ConverData(allHeaderData, allDataData);
 		if (olmonitormin != null) {
 			result.add(olmonitormin);
 		}
-
-		// 返回
+		writeDataLog("数据解析完成:");
 		return result;
 	}
 
@@ -160,7 +158,7 @@ public class Process212 extends AbsProcessing {
                 if(allHeaderData.get("CN").equals("2011") || allHeaderData.get("CN").equals("2051")) {
                     result = tmpdata;
                 } else {
-                    printErrorLog("CN 编码异常，不进行解析: CN="+allHeaderData.get("CN"));
+                    writeDataLog("CN 编码异常，不进行解析: CN="+allHeaderData.get("CN"));
                     return result;
                 }
             }
@@ -171,7 +169,7 @@ public class Process212 extends AbsProcessing {
                     tmpdata.setMonitorTime(dataDateFormat.parse(allDataData.get("DataTime")));
                 } catch (Exception e) {
                     // 时间转换失败
-                    printErrorLog("时间转换失败:"+allDataData);
+                    writeDataLog("时间转换失败:"+allDataData);
                     tmpdata.setMonitorTime(new Date());
                     e.printStackTrace();
                 }
@@ -325,16 +323,6 @@ public class Process212 extends AbsProcessing {
         }
         System.out.println("耗时： " + (new Date().getTime() - time1));
     }
-
-	@Override
-	public boolean IsComputerAQI() {
-		return true;
-	}
-
-	@Override
-	public boolean IsAnalyzeExceptionValue() {
-		return false;
-	}
 
 	@Override
 	public String GetProcessName() {

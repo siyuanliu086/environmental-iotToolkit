@@ -2,19 +2,22 @@ package app.iot.process.plugins;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
+
+import org.apache.commons.io.FileUtils;
 
 /**
- * 解析器抽象父类，定义统一日志标准
+ * 解析器抽象父类
  * @author      : Liu Siyuan
  * @Date        : 2018年7月10日 下午5:29:49
  * @version 1.0.0
  */
 public abstract class AbsProcessor implements IProcessor {
-    private java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GetProcessName());
-    protected String parseTime;
+    /**协议指定数据时间格式*/
+    protected SimpleDateFormat dataDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    protected SimpleDateFormat hDateFormat = new SimpleDateFormat("yyyyMMddHH");
     
     /**
      * 定义统一日志标准
@@ -22,40 +25,27 @@ public abstract class AbsProcessor implements IProcessor {
      * @Date        : 2018年7月10日 下午5:29:49
      * @version 1.0.0
      */
-    public AbsProcessor() {
-        try {
-            File logDir = new File("D:/run_pre/iot/process/plugin", GetProcessName() + "/");//创建文件对象参数：父目录,子目录
-            logDir.mkdirs();//创建多级目录
-            File logFile = new File(logDir.getAbsolutePath(), "process.log");//创建文件对象
-            
-            //写出日志文件,参数：路径,最大字节数,要使用的文件数,是否追加文件。
-            //达到最大字节数后,会删掉原来所有记录,重新开始记录
-            FileHandler fileHandler = new FileHandler(logFile.getAbsolutePath(), 1024 * 1024, 1, true);
-            fileHandler.setLevel(Level.INFO); 
-            fileHandler.setFormatter(new MyLogHander());
-            logger.addHandler(fileHandler);
-            
-            parseTime = simpleDateFormat.format(new Date());
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+    public AbsProcessor() {}
+    
+    private String logPath;
+    private boolean isWriteLog;
+    
+    public void setWriteLog(boolean isWriteLog, String logPath) {
+        this.isWriteLog = isWriteLog; 
+        this.logPath = logPath;
     }
     
-    class MyLogHander extends java.util.logging.Formatter { 
-        @Override 
-        public String format(java.util.logging.LogRecord record) { 
-            return parseTime + "\t" + record.getLevel() + ":" + record.getMessage()+"\n"; 
-        } 
-    }
-    
-    protected void printInfoLog(String log) {
-        logger.info(log); 
-    }
-    
-    protected void printErrorLog(String log) {
-        logger.warning(log); 
+    // 普通日志，一般日志记录
+    protected void writeDataLog(String data) {
+        if(isWriteLog) {
+            String filename = logPath + "/" + hDateFormat.format(new Date()) + ".txt";
+            String filedata = simpleDateFormat.format(new Date()) + " : " + data + "\r\n";
+            try {
+                FileUtils.write(new File(filename), filedata, "UTF-8", true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     /**

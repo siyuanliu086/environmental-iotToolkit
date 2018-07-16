@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import app.iot.process.database.entity.OlMonitorMinData;
-import app.iot.process.plugins.AbsProcessing;
+import app.iot.process.plugins.AbsProcessor;
 
 /**
  * 大气环境污染源TVOC软通212
  * @author Liu Siyuan
  *
  */
-public class ProcessTVOC212 extends AbsProcessing {
+public class ProcessTVOC212 extends AbsProcessor {
 
 	/*
 	 * 检查数据是否是本协议的数据
@@ -26,7 +26,7 @@ public class ProcessTVOC212 extends AbsProcessing {
 		    String systemCode = tempArr[1].substring(0, 2);
 		    if (GetProcessSysCode().equals(systemCode)) {//系统编码31,大气环境污染源
 	            result = true;
-	            printInfoLog("设备数据校验完成");
+	            writeDataLog("设备数据校验完成");
 	        }
 		}
 		return result;
@@ -37,7 +37,7 @@ public class ProcessTVOC212 extends AbsProcessing {
 	 */
 	@Override
 	public List<OlMonitorMinData> Process(String command) {
-	    printInfoLog("收到预处理数据:" + command);
+	    writeDataLog("收到预处理数据:" + command);
 		List<OlMonitorMinData> result = new ArrayList<OlMonitorMinData>();
 		// 接受处理的的数据
 		// 注意，由于是字符串数据，只有在收到数据知道后使用使用回车换行的，才会触发这个信息：环保部212和天津国标的设备就是这个模式。
@@ -92,9 +92,9 @@ public class ProcessTVOC212 extends AbsProcessing {
 		// }
 		// 校验crc
 		if (icrccomputer != icrckey) {
+		    writeDataLog("CRC 校验异常！" + icrccomputer);
 			return result;
 		}
-		printInfoLog("数据校验完成:");
 
 		// 头信息
 		HashMap<String, String> allHeaderData = new HashMap<String, String>();
@@ -124,15 +124,13 @@ public class ProcessTVOC212 extends AbsProcessing {
 				}
 			}
 		}
-		printInfoLog("数据解析完成:");
+		
 		// 解析数据，判断是是否是主服务器，如果是主服务器就转发到从服务器上
 		OlMonitorMinData olmonitormin = ConverData(allHeaderData, allDataData);
 		if (olmonitormin != null) {
-			//
 			result.add(olmonitormin);
 		}
-
-		// 返回
+		writeDataLog("数据解析完成:");
 		return result;
 	}
 
@@ -154,7 +152,7 @@ public class ProcessTVOC212 extends AbsProcessing {
                     tmpdata.setMonitorTime(dataDateFormat.parse(allDataData.get("DataTime")));
                 } catch (Exception e) {
                     // 时间转换失败
-                    printErrorLog("时间转换失败:"+allDataData);
+                    writeDataLog("时间转换失败:"+allDataData);
                     tmpdata.setMonitorTime(new Date());
                     e.printStackTrace();
                 }
@@ -267,16 +265,6 @@ public class ProcessTVOC212 extends AbsProcessing {
 			e.printStackTrace();
 		}
 		return result;
-	}
-
-	@Override
-	public boolean IsComputerAQI() {
-		return true;
-	}
-
-	@Override
-	public boolean IsAnalyzeExceptionValue() {
-		return false;
 	}
 
 	@Override
