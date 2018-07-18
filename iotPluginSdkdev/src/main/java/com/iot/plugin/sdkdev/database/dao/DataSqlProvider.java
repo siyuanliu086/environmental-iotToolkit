@@ -37,7 +37,7 @@ public class DataSqlProvider {
 	    String endTime = String.valueOf(paramMap.get("endTime"));
 	    
 	    BEGIN();
-	    SELECT("*");
+	    SELECT(" point_id, point_name, region_code, region_name, monitor_time, aqi, level ");
 	    FROM(tableName);
 	    WHERE(" monitor_time >= '" + startTime + "' and monitor_time < '" + endTime+"'");
 	    return SQL();

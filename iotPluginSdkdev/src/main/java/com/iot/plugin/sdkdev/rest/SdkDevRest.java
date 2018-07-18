@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iot.plugin.sdkdev.service.SdkDevServer;
 import com.springboot.base.util.ResultUtil;
 
 @RestController
 @RequestMapping("/rest/iot/plugin/sdkdev")
 public class SdkDevRest {
 	@Autowired
-	private DataBackupServer dayJobsServer;
+	private SdkDevServer devServer;
 	
 	/**
 	 * 查询表格数据
@@ -25,7 +26,7 @@ public class SdkDevRest {
 	@ResponseBody
     @RequestMapping("/getTableData")
 	public ResultUtil getTableData(String tableName, String startTime, String endTime) {
-	    return dayJobsServer.getTableData(tableName, startTime, endTime);
+	    return devServer.getTableData(tableName, startTime, endTime);
 	}
 	
 }
