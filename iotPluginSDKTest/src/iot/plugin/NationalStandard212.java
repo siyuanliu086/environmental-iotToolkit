@@ -7,6 +7,7 @@ import java.util.List;
 
 import app.iot.process.database.entity.OlMonitorMinData;
 import app.iot.process.plugins.AbsProcessor;
+import app.tools.JsonHelper;
 
 /**
  * 国标212
@@ -19,13 +20,13 @@ public class NationalStandard212 extends AbsProcessor {
 	 * 检查数据是否是本协议的数据
 	 */
 	@Override
-	public boolean CheckData(String data) {
+	public boolean checkData(String data) {
 		boolean result = false;
 		// ## + 长度 + QN 区别于软通简版212协议
 		String[] tempArr = data.split("ST=");
         if(tempArr.length == 2) {
             String systemCode = tempArr[1].substring(0, 2);
-            if (GetProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测
+            if (getProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测
                 if (data.length() >= 2 && data.indexOf("##") >= 0 && data.indexOf("QN=") <= 7 && (data.contains("a34004") || data.contains("a01001"))) {//包含PM2.5 或者温度的编码
                     result = true;
                     writeDataLog("国标设备数据校验完成");
@@ -39,7 +40,7 @@ public class NationalStandard212 extends AbsProcessor {
 	 * 处理本数据，正常情况应该是返回一条或者多条， 如果返回数据少于一条，那就是解析失败，数据需要保存到失败数据库
 	 */
 	@Override
-	public List<OlMonitorMinData> Process(String command) {
+	public List<OlMonitorMinData> process(String command) {
 	    writeDataLog("收到国标设备预处理数据:" + command);
 		List<OlMonitorMinData> result = new ArrayList<OlMonitorMinData>();
 		// 如果数据为长度小于2，就直接返回
@@ -118,6 +119,23 @@ public class NationalStandard212 extends AbsProcessor {
 		}
 		writeDataLog("数据解析完成:");
 		return result;
+	}
+	
+	@Override
+	public List<String> process2Json(String data) {
+	    List<String> result = new ArrayList<>();
+	    List<OlMonitorMinData> dataList = process(data);
+	    if(dataList == null || dataList.size() == 0) {
+	        return result; 
+	    }
+	    for(OlMonitorMinData minData : dataList) {
+	        try {
+                result.add(JsonHelper.beanToJsonStr(minData));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+	    }
+	    return result;
 	}
 
 	/*
@@ -209,7 +227,7 @@ public class NationalStandard212 extends AbsProcessor {
 	}
 
 	@Override
-	public String GetProcessName() {
+	public String getProcessName() {
 		return "212国标解析器";
 	}
 	
@@ -218,14 +236,14 @@ public class NationalStandard212 extends AbsProcessor {
 	    String data = "##0249QN=20180507000558;ST=39;CN=2011;PW=123456;MN=010000A00000000000A00654;CP=&&DataTime=20180507000558;a01001-Rtd=26.0,a01001-Flag=N;a01002-Rtd=30.4,a01002-Flag=N;a34001-Rtd=0.0,a34001-Flag=N;a34002-Rtd=24.0,a34002-Flag=N;a34004-Rtd=23.0,a34004-Flag=N&&D801";
         //String data = "##0481QN=20160801085000001;ST=22;CN=2011;PW=123456;MN=010000A8900016F000169DC0;Flag=7;CP=&&DataTime=20160801084000;a21005-Rtd=1.1,a21005-Flag=N;a21004-Rtd=112,a21004-Flag=N;a21026-Rtd=58,a21026-Flag=N;a21030-Rtd=64,a21030-Flag=N;LA-Rtd=50.1,LA-Flag=N;a34004-Rtd=207,a34004-Flag=N;a34002-Rtd=295,a34002-Flag=N;a01001-Rtd=12.6,a01001-Flag=N;a01002-Rtd=32,a01002-Flag=N;a01006-Rtd=101.02,a01006-Flag=N;a01007-Rtd=2.1,a01007-Flag=N;a01008-Rtd=120,a01008-Flag=N;a34001-Rtd=217,a34001-Flag=N;&&4f40";
         NationalStandard212 standard212 = new NationalStandard212();
-        if(standard212.CheckData(data)) {
+        if(standard212.checkData(data)) {
             //List<OlMonitorMinData> min = standard212.Process(data);
         }
         System.out.println("耗时： " + (new Date().getTime() - time1));
     }
 
     @Override
-    public String GetProcessSysCode() {
+    public String getProcessSysCode() {
         return AIR_MONITOR_MONITOR_212;
     }
 }

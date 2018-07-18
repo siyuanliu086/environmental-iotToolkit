@@ -7,18 +7,19 @@ import java.util.List;
 
 import app.iot.process.database.entity.OlMonitorMinData;
 import app.iot.process.plugins.AbsProcessor;
+import app.tools.JsonHelper;
 
 public class Process212 extends AbsProcessor {
 	/*
 	 * 检查数据是否是本协议的数据
 	 */
 	@Override
-	public boolean CheckData(String data) {
+	public boolean checkData(String data) {
 		boolean result = false;
         String[] tempArr = data.split("ST=");
         if(tempArr.length == 2) {
             String systemCode = tempArr[1].substring(0, 2);
-            if (GetProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测 || (工地扬尘)
+            if (getProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测 || (工地扬尘)
                 if (data.length() >= 2 && data.indexOf("##") >= 0 && !(data.contains("a34004") || data.contains("a01001"))) {//不包含PM2.5 或者温度的国标编码
                     result = true;
                     writeDataLog("设备数据校验完成");
@@ -32,7 +33,7 @@ public class Process212 extends AbsProcessor {
 	 * 处理本数据，正常情况应该是返回一条或者多条， 如果返回数据少于一条，那就是解析失败，数据需要保存到失败数据库
 	 */
 	@Override
-	public List<OlMonitorMinData> Process(String command) {
+	public List<OlMonitorMinData> process(String command) {
 	    writeDataLog("收到设备预处理数据:" + command);
 		List<OlMonitorMinData> result = new ArrayList<OlMonitorMinData>();
 		// 校验crc
@@ -125,6 +126,23 @@ public class Process212 extends AbsProcessor {
 		writeDataLog("数据解析完成:");
 		return result;
 	}
+	   
+    @Override
+    public List<String> process2Json(String data) {
+        List<String> result = new ArrayList<>();
+        List<OlMonitorMinData> dataList = process(data);
+        if(dataList == null || dataList.size() == 0) {
+            return result; 
+        }
+        for(OlMonitorMinData minData : dataList) {
+            try {
+                result.add(JsonHelper.beanToJsonStr(minData));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 
 	/*
 	 * 转换字典形式数据为实体数据
@@ -316,21 +334,21 @@ public class Process212 extends AbsProcessor {
 	public static void main(String[] args) {
         Process212 p = new Process212();
         long time1 = new Date().getTime();
-        String command = "##0282ST=22;CN=2011;PW=123456;MN=202020202020;CP=&&DataTime=20170310182624;925-Rtd=978,925-Flag=N;107-Rtd=670,107-Flag=N;103-Rtd=228,103-Flag=N;B03-Rtd=30,B03-Flag=N;126-Rtd=33,126-Flag=N;128-Rtd=77,128-Flag=N;129-Rtd=190,129-Flag=N;130-Rtd=195,130-Flag=N;127-Rtd=638,127-Flag=N&&9481";
-        if(p.CheckData(command)) {            
-            List<OlMonitorMinData> minData = p.Process(command);
+        String command = "##0284ST=22;CN=2011;PW=123456;MN=5LFW94N01AM0008;CP=&&DataTime=20180716134658;PM10-Rtd=238.0,PM10-Flag=N;PM25-Rtd=217.0,PM25-Flag=N;TSP-Rtd=0.0,TSP-Flag=N;TEM-Rtd=29.9,TEM-Flag=N;RH-Rtd=53.1,RH-Flag=N;PA-Rtd=0.0,PA-Flag=N;WS-Rtd=0.0,WS-Flag=N;WD-Rtd=0,WD-Flag=N;NOIS-Rtd=66.3,NOIS-Flag=N;&&8A81";
+        if(p.checkData(command)) {            
+            List<OlMonitorMinData> minData = p.process(command);
             System.out.println(minData.get(0).toString());
         }
         System.out.println("耗时： " + (new Date().getTime() - time1));
     }
 
 	@Override
-	public String GetProcessName() {
+	public String getProcessName() {
 		return "大气简标212协议";
 	}
 
 	@Override
-    public String GetProcessSysCode() {
+    public String getProcessSysCode() {
         return AIR_MONITOR_MONITOR_212;
     }
 }

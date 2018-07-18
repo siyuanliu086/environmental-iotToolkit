@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+
+import app.iot.process.database.entity.IotData;
 
 /**
  * 解析器抽象父类
@@ -47,6 +50,23 @@ public abstract class AbsProcessor implements IProcessor {
             }
         }
     }
+    
+    @Override
+    public List<? extends IotData> process(String data) {
+        return null;
+    }
+    
+    @Override
+    public List<String> process2Json(String data) {
+        return null; 
+    }
+    
+    protected String exchangeName;
+    @Override
+    public void setMQExchange(String exchangeName) {
+        this.exchangeName = exchangeName;
+    }
+    
     
     /**
      * CRC 校验方法
