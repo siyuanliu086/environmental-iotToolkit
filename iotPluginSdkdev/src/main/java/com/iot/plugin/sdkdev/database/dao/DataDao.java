@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.SelectProvider;
 
 import com.iot.plugin.sdkdev.database.model.TransData;
 
+import app.iot.process.database.entity.OlMonitorMinData;
+
 public interface DataDao {
     @Insert({
         "insert into ${tableName} (id,",
@@ -109,7 +111,7 @@ public interface DataDao {
         "#{v4,jdbcType=DOUBLE },",
         "#{v5,jdbcType=DOUBLE })"
     })
-    Integer insert(TransData transData);
+    Integer insert(OlMonitorMinData transData);
     
 	@SelectProvider(type=DataSqlProvider.class, method="getTableData")
     List<Map<String, Object>> getTableData(Map<String, String> map);
