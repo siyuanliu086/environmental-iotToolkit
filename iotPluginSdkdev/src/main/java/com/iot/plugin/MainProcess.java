@@ -43,12 +43,13 @@ public class MainProcess extends Thread implements MessageCallback {
         }
         try {
             OlMonitorMinData minData = JsonHelper.jsonStrToBean(message, OlMonitorMinData.class);
-            //TODO 这里可以根据实际业务，添加二次计算数据（例如：AQI计算、空气质量级别计算、补充站点信息等）
+            //TODO 获取解析后的数据进行保存
+            // 这里可以根据实际业务，添加二次计算数据
+            // 例如：AQI计算、空气质量级别计算、补充站点信息等
             dataDao.insert(minData);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
 
 }

@@ -9,6 +9,11 @@ import app.iot.process.database.entity.OlMonitorMinData;
 import app.iot.process.plugins.AbsProcessor;
 import app.tools.JsonHelper;
 
+/**
+ * 大气监测简标、国标、工期扬尘
+ * @author Liu Siyuan
+ *
+ */
 public class Process212 extends AbsProcessor {
 	/*
 	 * 检查数据是否是本协议的数据
@@ -19,7 +24,7 @@ public class Process212 extends AbsProcessor {
         if(tempArr.length == 2) {
             String systemCode = tempArr[1].substring(0, 2);
             if (getProcessSysCode().equals(systemCode) || DUST_POLLUTE_MONITOR_212.equals(systemCode)) {//系统编码22,大气环境监测 || (工地扬尘)
-                if (data.length() >= 2 && data.indexOf("##") >= 0 && !(data.contains("a34004") || data.contains("a01001"))) {//不包含PM2.5 或者温度的国标编码
+                if (data.length() >= 2 && data.indexOf("##") >= 0) {
                     result = true;
                     writeDataLog("设备数据校验完成");
                 }
@@ -192,137 +197,107 @@ public class Process212 extends AbsProcessor {
             } else {
                 tmpdata.setMonitorTime(new Date());
             }
-
-			if (allDataData.containsKey("a34002-Rtd") && !allDataData.get("a34002-Rtd").equals(null)) {
+            // pm10
+            if (allDataData.containsKey("PM10-Rtd") && !allDataData.get("PM10-Rtd").equals(null)) {
+                tmpdata.setPm10(Double.parseDouble(allDataData.get("PM10-Rtd")));
+            } else if (allDataData.containsKey("a34002-Rtd") && !allDataData.get("a34002-Rtd").equals(null)) {
 				tmpdata.setPm10(Double.parseDouble(allDataData.get("a34002-Rtd")));
-			}
-			/*
-			 * if (allDataData.containsKey("PM10-Avg") &&
-			 * !allDataData.get("PM10-Avg").equals(null)) {
-			 * tmpdata.setPm10(Double.parseDouble(allDataData.get("PM10-Avg")));
-			 * }
-			 */
-			if (allDataData.containsKey("PM10-Rtd") && !allDataData.get("PM10-Rtd").equals(null)) {
-				tmpdata.setPm10(Double.parseDouble(allDataData.get("PM10-Rtd")));
-			}
-			if (allDataData.containsKey("107-Rtd") && !allDataData.get("107-Rtd").equals(null)) {
-			    tmpdata.setPm10(Double.parseDouble(allDataData.get("107-Rtd")));
-			}
-			
-//			if (allDataData.containsKey("a34004-Rtd") && !allDataData.get("a34004-Rtd").equals(null)) {
-//				tmpdata.setPm25(Double.parseDouble(allDataData.get("a34004-Rtd")));
-//			}
+			} else if (allDataData.containsKey("107-Rtd") && !allDataData.get("107-Rtd").equals(null)) {
+                tmpdata.setPm10(Double.parseDouble(allDataData.get("107-Rtd")));
+            }
+			// pm25
+			if (allDataData.containsKey("PM25-Rtd") && !allDataData.get("PM25-Rtd").equals(null)) {
+                tmpdata.setPm25(Double.parseDouble(allDataData.get("PM25-Rtd")));
+            } else if (allDataData.containsKey("a34004-Rtd") && !allDataData.get("a34004-Rtd").equals(null)) {
+                tmpdata.setPm25(Double.parseDouble(allDataData.get("a34004-Rtd")));
+            } else if (allDataData.containsKey("925-Rtd") && !allDataData.get("925-Rtd").equals(null)) {
+                tmpdata.setPm25(Double.parseDouble(allDataData.get("925-Rtd")));
+            }
+			// so2
 			if (allDataData.containsKey("SO2-Rtd") && !allDataData.get("SO2-Rtd").equals(null)) {
-				tmpdata.setSo2(Double.parseDouble(allDataData.get("SO2-Rtd")));
-			}
+                tmpdata.setSo2(Double.parseDouble(allDataData.get("SO2-Rtd")));
+            } else if (allDataData.containsKey("a21026-Rtd") && !allDataData.get("a21026-Rtd").equals(null)) {
+                tmpdata.setSo2(Double.parseDouble(allDataData.get("a21026-Rtd")));
+            }
+			// co
 			if (allDataData.containsKey("CO-Rtd") && !allDataData.get("CO-Rtd").equals(null)) {
-				tmpdata.setCo(Double.parseDouble(allDataData.get("CO-Rtd")));
-			}
+                tmpdata.setCo(Double.parseDouble(allDataData.get("CO-Rtd")));
+            } else if (allDataData.containsKey("a21005-Rtd") && !allDataData.get("a21005-Rtd").equals(null)) {
+                tmpdata.setCo(Double.parseDouble(allDataData.get("a21005-Rtd")));
+            }
+			// no2
 			if (allDataData.containsKey("NO2-Rtd") && !allDataData.get("NO2-Rtd").equals(null)) {
-				tmpdata.setNo2(Double.parseDouble(allDataData.get("NO2-Rtd")));
-			}
+                tmpdata.setNo2(Double.parseDouble(allDataData.get("NO2-Rtd")));
+            } else if (allDataData.containsKey("a21004-Rtd") && !allDataData.get("a21004-Rtd").equals(null)) {
+                tmpdata.setNo2(Double.parseDouble(allDataData.get("a21004-Rtd")));
+            }
+			// o3
 			if (allDataData.containsKey("O3-Rtd") && !allDataData.get("O3-Rtd").equals(null)) {
 				tmpdata.setO3(Double.parseDouble(allDataData.get("O3-Rtd")));
-			}
-			/*
-			 * if (allDataData.containsKey("PM25-Avg") &&
-			 * !allDataData.get("PM25-Avg").equals(null)) {
-			 * tmpdata.setPm25(Double.parseDouble(allDataData.get("PM25-Avg")));
-			 * }
-			 */
-			if (allDataData.containsKey("PM25-Rtd") && !allDataData.get("PM25-Rtd").equals(null)) {
-				tmpdata.setPm25(Double.parseDouble(allDataData.get("PM25-Rtd")));
-			}
-			if (allDataData.containsKey("925-Rtd") && !allDataData.get("925-Rtd").equals(null)) {
-			    tmpdata.setPm25(Double.parseDouble(allDataData.get("925-Rtd")));
-			}
-
-//			if (allDataData.containsKey("a01008-Rtd") && !allDataData.get("a01008-Rtd").equals(null)) {
-//				tmpdata.setWd(Double.parseDouble(allDataData.get("a01008-Rtd")));
-//			}
-			/*
-			 * if (allDataData.containsKey("WD-Avg") &&
-			 * !allDataData.get("WD-Avg").equals(null)) {
-			 * tmpdata.setWd(Double.parseDouble(allDataData.get("WD-Avg"))); }
-			 */
+			} else if (allDataData.containsKey("a21030-Rtd") && !allDataData.get("a21030-Rtd").equals(null)) {
+                tmpdata.setO3(Double.parseDouble(allDataData.get("a21030-Rtd")));
+            } else if (allDataData.containsKey("a05024-Rtd") && !allDataData.get("a05024-Rtd").equals(null)) {
+                tmpdata.setO3(Double.parseDouble(allDataData.get("a05024-Rtd")));
+            }
+			// wd
 			if (allDataData.containsKey("WD-Rtd") && !allDataData.get("WD-Rtd").equals(null)) {
-				tmpdata.setWd(Double.parseDouble(allDataData.get("WD-Rtd")));
-			}
-			if (allDataData.containsKey("130-Rtd") && !allDataData.get("130-Rtd").equals(null)) {
-			    tmpdata.setWd(Double.parseDouble(allDataData.get("130-Rtd")));
-			}
-
-//			if (allDataData.containsKey("a01007-Rtd") && !allDataData.get("a01007-Rtd").equals(null)) {
-//				tmpdata.setWs(Double.parseDouble(allDataData.get("a01007-Rtd")));
-//			}
-			/*
-			 * if (allDataData.containsKey("WS-Avg") &&
-			 * !allDataData.get("WS-Avg").equals(null)) {
-			 * tmpdata.setWs(Double.parseDouble(allDataData.get("WS-Avg"))); }
-			 */
+                tmpdata.setWd(Double.parseDouble(allDataData.get("WD-Rtd")));
+            } else if (allDataData.containsKey("a01008-Rtd") && !allDataData.get("a01008-Rtd").equals(null)) {
+                tmpdata.setWd(Double.parseDouble(allDataData.get("a01008-Rtd")));
+            } else if (allDataData.containsKey("130-Rtd") && !allDataData.get("130-Rtd").equals(null)) {
+                tmpdata.setWd(Double.parseDouble(allDataData.get("130-Rtd")));
+            }
+			// ws
 			if (allDataData.containsKey("WS-Rtd") && !allDataData.get("WS-Rtd").equals(null)) {
-				tmpdata.setWs(Double.parseDouble(allDataData.get("WS-Rtd")));
-			}
-			if (allDataData.containsKey("129-Rtd") && !allDataData.get("129-Rtd").equals(null)) {
-			    tmpdata.setWs(Double.parseDouble(allDataData.get("129-Rtd")));
-			}
-
-			/*
-			 * if (allDataData.containsKey("TSP-Avg") &&
-			 * !allDataData.get("TSP-Avg").equals(null)) {
-			 * tmpdata.setTsp(Double.parseDouble(allDataData.get("TSP-Avg"))); }
-			 */
-			if (allDataData.containsKey("TSP-Rtd") && !allDataData.get("TSP-Rtd").equals(null)) {
-				tmpdata.setTsp(Double.parseDouble(allDataData.get("TSP-Rtd")));
-			}
-			//B03噪声协议编号
-			if (allDataData.containsKey("B03-Rtd") && !allDataData.get("B03-Rtd").equals(null)) {
-				tmpdata.setNoise(Double.parseDouble(allDataData.get("B03-Rtd")));
-			}
-			if (allDataData.containsKey("NOIS-Rtd") && !allDataData.get("NOIS-Rtd").equals(null)) {
-				tmpdata.setNoise(Double.parseDouble(allDataData.get("NOIS-Rtd")));
-			}
- 			if (allDataData.containsKey("a01001-Rtd") && !allDataData.get("a01001-Rtd").equals(null)) {
-				tmpdata.setTem(Double.parseDouble(allDataData.get("a01001-Rtd")));
-			}
+                tmpdata.setWs(Double.parseDouble(allDataData.get("WS-Rtd")));
+            } else if (allDataData.containsKey("a01007-Rtd") && !allDataData.get("a01007-Rtd").equals(null)) {
+                tmpdata.setWs(Double.parseDouble(allDataData.get("a01007-Rtd")));
+            } else if (allDataData.containsKey("129-Rtd") && !allDataData.get("129-Rtd").equals(null)) {
+                tmpdata.setWs(Double.parseDouble(allDataData.get("129-Rtd")));
+            }
+			// 温度
 			if (allDataData.containsKey("TEM-Rtd") && !allDataData.get("TEM-Rtd").equals(null)) {
-				tmpdata.setTem(Double.parseDouble(allDataData.get("TEM-Rtd")));
-			}
-			if (allDataData.containsKey("126-Rtd") && !allDataData.get("126-Rtd").equals(null)) {
-			    tmpdata.setTem(Double.parseDouble(allDataData.get("126-Rtd")));
-			}
-			if (allDataData.containsKey("PA-Rtd") && !allDataData.get("PA-Rtd").equals(null)) {
-				tmpdata.setPa(Double.parseDouble(allDataData.get("PA-Rtd")));
-			}
-
-			if (allDataData.containsKey("TVOC-Rtd") && !allDataData.get("TVOC-Rtd").equals(null)) {
-				tmpdata.setTvocs(Double.parseDouble(allDataData.get("TVOC-Rtd")));
-			}
-			if (allDataData.containsKey("VOC-Rtd") && !allDataData.get("VOC-Rtd").equals(null)) {
-			    tmpdata.setVocs(Double.parseDouble(allDataData.get("VOC-Rtd")));
-			}
-			
-
-			/*
-			 * if (allDataData.containsKey("RH-Avg") &&
-			 * !allDataData.get("RH-Avg").equals(null)) {
-			 * tmpdata.setRh(Double.parseDouble(allDataData.get("RH-Avg"))); }
-			 */
+                tmpdata.setTem(Double.parseDouble(allDataData.get("TEM-Rtd")));
+            } else if (allDataData.containsKey("a01001-Rtd") && !allDataData.get("a01001-Rtd").equals(null)) {
+                tmpdata.setTem(Double.parseDouble(allDataData.get("a01001-Rtd")));
+            } else if (allDataData.containsKey("126-Rtd") && !allDataData.get("126-Rtd").equals(null)) {
+                tmpdata.setTem(Double.parseDouble(allDataData.get("126-Rtd")));
+            }
+			// 湿度
 			if (allDataData.containsKey("RH-Rtd") && !allDataData.get("RH-Rtd").equals(null)) {
-				tmpdata.setRh(Double.parseDouble(allDataData.get("RH-Rtd")));
-			}
-			if (allDataData.containsKey("128-Rtd") && !allDataData.get("128-Rtd").equals(null)) {
-			    tmpdata.setRh(Double.parseDouble(allDataData.get("128-Rtd")));
-			}
-
-			if (allDataData.containsKey("a01006-Rtd") && !allDataData.get("a01006-Rtd").equals(null)) {
-				tmpdata.setPa(Double.parseDouble(allDataData.get("a01006-Rtd")));
-			}
-			//CH4
-			//NMHC
-			if (allDataData.containsKey("CH4-Rtd") && !allDataData.get("CH4-Rtd").equals(null)) {
-				tmpdata.setCh4s(Double.parseDouble(allDataData.get("CH4-Rtd")));
-			}
+                tmpdata.setRh(Double.parseDouble(allDataData.get("RH-Rtd")));
+            } else if (allDataData.containsKey("a01002-Rtd") && !allDataData.get("a01002-Rtd").equals(null)) {
+                tmpdata.setRh(Double.parseDouble(allDataData.get("a01002-Rtd")));
+            } else if (allDataData.containsKey("128-Rtd") && !allDataData.get("128-Rtd").equals(null)) {
+                tmpdata.setRh(Double.parseDouble(allDataData.get("128-Rtd")));
+            } 
+			// 气压
+			if (allDataData.containsKey("PA-Rtd") && !allDataData.get("PA-Rtd").equals(null)) {
+                tmpdata.setPa(Double.parseDouble(allDataData.get("PA-Rtd")));
+            } else if (allDataData.containsKey("a01006-Rtd") && !allDataData.get("a01006-Rtd").equals(null)) {
+                tmpdata.setPa(Double.parseDouble(allDataData.get("a01006-Rtd")));
+            }
+	         // noise,B03噪声协议编号
+            if (allDataData.containsKey("NOIS-Rtd") && !allDataData.get("NOIS-Rtd").equals(null)) {
+                tmpdata.setNoise(Double.parseDouble(allDataData.get("NOIS-Rtd")));
+            } else if (allDataData.containsKey("B03-Rtd") && !allDataData.get("B03-Rtd").equals(null)) {
+                tmpdata.setNoise(Double.parseDouble(allDataData.get("B03-Rtd")));
+            } else if (allDataData.containsKey("LA-Rtd") && !allDataData.get("LA-Rtd").equals(null)) {
+                tmpdata.setNoise(Double.parseDouble(allDataData.get("LA-Rtd")));
+            }
+            
+            if (allDataData.containsKey("TSP-Rtd") && !allDataData.get("TSP-Rtd").equals(null)) {
+                tmpdata.setTsp(Double.parseDouble(allDataData.get("TSP-Rtd")));
+            } 
+            if (allDataData.containsKey("TVOC-Rtd") && !allDataData.get("TVOC-Rtd").equals(null)) {
+                tmpdata.setTvocs(Double.parseDouble(allDataData.get("TVOC-Rtd")));
+            }
+            if (allDataData.containsKey("VOC-Rtd") && !allDataData.get("VOC-Rtd").equals(null)) {
+                tmpdata.setVocs(Double.parseDouble(allDataData.get("VOC-Rtd")));
+            }
+            if (allDataData.containsKey("CH4-Rtd") && !allDataData.get("CH4-Rtd").equals(null)) {
+                tmpdata.setCh4s(Double.parseDouble(allDataData.get("CH4-Rtd")));
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -332,7 +307,8 @@ public class Process212 extends AbsProcessor {
 	public static void main(String[] args) {
         Process212 p = new Process212();
         long time1 = new Date().getTime();
-        String command = "##0284ST=22;CN=2011;PW=123456;MN=5LFW94N01AM0008;CP=&&DataTime=20180716134658;PM10-Rtd=238.0,PM10-Flag=N;PM25-Rtd=217.0,PM25-Flag=N;TSP-Rtd=0.0,TSP-Flag=N;TEM-Rtd=29.9,TEM-Flag=N;RH-Rtd=53.1,RH-Flag=N;PA-Rtd=0.0,PA-Flag=N;WS-Rtd=0.0,WS-Flag=N;WD-Rtd=0,WD-Flag=N;NOIS-Rtd=66.3,NOIS-Flag=N;&&8A81";
+//        String command = "##0284ST=22;CN=2011;PW=123456;MN=5LFW94N01AM0008;CP=&&DataTime=20180716134658;PM10-Rtd=238.0,PM10-Flag=N;PM25-Rtd=217.0,PM25-Flag=N;TSP-Rtd=0.0,TSP-Flag=N;TEM-Rtd=29.9,TEM-Flag=N;RH-Rtd=53.1,RH-Flag=N;PA-Rtd=0.0,PA-Flag=N;WS-Rtd=0.0,WS-Flag=N;WD-Rtd=0,WD-Flag=N;NOIS-Rtd=66.3,NOIS-Flag=N;&&8A81";
+        String command = "##0481QN=20160801085000001;ST=22;CN=2011;PW=123456;MN=010000A8900016F000169DC0;Flag=7;CP=&&DataTime=20160801084000;a21005-Rtd=1.1,a21005-Flag=N;a21004-Rtd=112,a21004-Flag=N;a21026-Rtd=58,a21026-Flag=N;a21030-Rtd=64,a21030-Flag=N;LA-Rtd=50.1,LA-Flag=N;a34004-Rtd=207,a34004-Flag=N;a34002-Rtd=295,a34002-Flag=N;a01001-Rtd=12.6,a01001-Flag=N;a01002-Rtd=32,a01002-Flag=N;a01006-Rtd=101.02,a01006-Flag=N;a01007-Rtd=2.1,a01007-Flag=N;a01008-Rtd=120,a01008-Flag=N;a34001-Rtd=217,a34001-Flag=N;&&4f40";
         if(p.checkData(command)) {            
             List<OlMonitorMinData> minData = p.process(command);
             System.out.println(minData.get(0).toString());
