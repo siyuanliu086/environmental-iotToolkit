@@ -13,7 +13,7 @@ import app.tools.JsonHelper;
  * @author Liu Siyuan
  *
  */
-public class ProcessXinaHeNormal extends AbsProcessor {
+public class ProcessXianhe extends AbsProcessor {
 	  
 	@Override
 	public boolean checkData(String data) {
