@@ -89,7 +89,8 @@ public class IOTSenderMainFrame {
                 "大气-国标212",
                 "空气污染-TVOC",
                 "地表水-国标212",
-                "位置-简标212"
+                "气象-简标212",
+                "智慧电表"
         };
         JComboBox comboBox = new JComboBox(item);
         comboBox.setBounds(128, 10, 340, 21);
@@ -101,7 +102,7 @@ public class IOTSenderMainFrame {
         frame.getContentPane().add(configLabel);
         
         configTextField = new JTextField();
-        //configTextField.setText("D:\\02_iotsendtool\\position_monitor.txt");
+        configTextField.setText("D:\\02_iotsendtool\\electmeter_monitor.txt");
         configTextField.setBounds(128, 38, 340, 21);
         frame.getContentPane().add(configTextField);
         configTextField.setColumns(10);
@@ -225,7 +226,7 @@ public class IOTSenderMainFrame {
                     String title = Controller.getInstance().getTitle();
                     frame.setTitle(title + "  " + getTimeSpend());
                 }
-            }, 0, 600);
+            }, 0, 500);
         } else {
             startButton.setEnabled(true);
             if(mTopTimer != null) {

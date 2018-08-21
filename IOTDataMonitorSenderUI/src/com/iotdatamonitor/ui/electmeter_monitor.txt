@@ -1,0 +1,1 @@
+{"title":"智慧电表（模拟上报）","deviceIds":"1047A,1048A,1049A,1050A,1063A,1064A,1065A,1066A,1071A,1072A,1073A","factorList":{"pm25":42,"pm10":48,"pm10_err":1},"cycle":"1","auto_full_factor":0}

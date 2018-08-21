@@ -9,9 +9,10 @@ import java.util.TimerTask;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iotdatamonitor.message.DeviceData;
+import com.iotdatamonitor.message.DeviceQiXiang;
+import com.iotdatamonitor.message.ElectMeterDeviceData;
 import com.iotdatamonitor.message.IDeviceData;
 import com.iotdatamonitor.message.NationalDeviceData;
-import com.iotdatamonitor.message.PositionData;
 import com.iotdatamonitor.message.TVOCDeviceData;
 import com.iotdatamonitor.message.WaterData;
 import com.iotdatamonitor.sender.SenderClient;
@@ -30,6 +31,7 @@ public class Controller {
     private int autoFullFactor = 1;//默认补全全部因子
     private JSONObject factorStyleJO;//因子规范 
     
+    private static int sleepCount = 0;
     
     // 循环主线程
     private Timer mainTimer;
@@ -60,7 +62,8 @@ public class Controller {
         deviceList.add((IDeviceData) (new NationalDeviceData(server, port)));
         deviceList.add((IDeviceData) (new TVOCDeviceData(server, port)));
         deviceList.add((IDeviceData) (new WaterData(server, port)));
-        deviceList.add((IDeviceData) (new PositionData(server, port)));
+        deviceList.add((IDeviceData) (new DeviceQiXiang(server, port)));
+        deviceList.add((IDeviceData) (new ElectMeterDeviceData(server, port)));
     }
     
     /**
@@ -102,6 +105,24 @@ public class Controller {
      * @version 1.0.0
      */
     private void startSender() {
+        if(deviceIdArr.length < 20) {
+            sleepCount = 1;
+        } else if(deviceIdArr.length < 100) {
+            sleepCount = 20;
+        } else if(deviceIdArr.length < 1000) {
+            sleepCount = 50;
+        } else if(deviceIdArr.length < 2000) {
+            sleepCount = 100;
+        } else if(deviceIdArr.length < 3000) {
+            sleepCount = 150;
+        } else if(deviceIdArr.length < 5000) {
+            sleepCount = 250;
+        } else if(deviceIdArr.length < 7000) {
+            sleepCount = 350;
+        } else {
+            sleepCount = 500;
+        }
+        
         mainTimer = new Timer();
         mainTimer.scheduleAtFixedRate(new TimerTask() {
             
@@ -142,9 +163,9 @@ public class Controller {
                 e.printStackTrace();
             }
             i ++;
-            if(i % 100 == 0 && i < (deviceIdArr.length - 100)) {
+            if(i % sleepCount == 0) {
                 try {
-                    Thread.sleep(100);// 每10条，休眠30ms
+                    Thread.sleep(200);// 每10条，休眠30ms
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -230,5 +251,13 @@ public class Controller {
         }
     }
 
+    public static void main(String[] args) {
+        int sleepCount = 350;
+        for(int i = 0; i < 10000; i++) {
+            if(i % sleepCount == 0) {
+                System.out.println(i);
+            }
+        }
+    }
     
 }
