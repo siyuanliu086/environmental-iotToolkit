@@ -72,6 +72,7 @@ public class DeviceData implements IDeviceData{
         String WS = "";
         String PA = "";
         String TSP = "";
+        String TVOC = "";
         if(factorStyle != null && factorStyle.containsKey("co")) {
             float co_ = factorStyle.getFloatValue("co");
             int co_err = factorStyle.containsKey("co_err") ? factorStyle.getInteger("co_err") : 0;
@@ -163,6 +164,13 @@ public class DeviceData implements IDeviceData{
         } else if(fullFactor){
             TSP = String.valueOf(getRandomFixedData());
         }
+        if(factorStyle != null && factorStyle.containsKey("tvoc")) {
+            float tvoc_ = factorStyle.getFloatValue("tvoc");
+            int tvoc_err = factorStyle.containsKey("tvoc_err") ? factorStyle.getInteger("tvoc_err") : 0;
+            TVOC = getRateValue(random, tvoc_, tvoc_err == 1);
+        } else if(fullFactor){
+            TVOC = String.valueOf(10 + getRandomFixedData() * 1.6 / 14.0f);
+        }
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String dataTime = sdf.format(new Date());
@@ -205,7 +213,10 @@ public class DeviceData implements IDeviceData{
             stArea.append("PA-Rtd=").append(PA).append(",PA-Flag=N;");
         }
         if(!StringUtil.isEmptyString(TSP)) {
-            stArea.append("TSP-Rtd=").append(TSP).append(",TSP-Flag=N");
+            stArea.append("TSP-Rtd=").append(TSP).append(",TSP-Flag=N;");
+        }
+        if(!StringUtil.isEmptyString(TVOC)) {
+            stArea.append("TVOC-Rtd=").append(TVOC).append(",TVOC-Flag=N");
         }
         stArea.append("&&");
         

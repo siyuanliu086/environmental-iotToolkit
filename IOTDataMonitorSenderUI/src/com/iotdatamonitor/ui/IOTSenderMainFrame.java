@@ -102,7 +102,7 @@ public class IOTSenderMainFrame {
         frame.getContentPane().add(configLabel);
         
         configTextField = new JTextField();
-        configTextField.setText("D:\\02_iotsendtool\\electmeter_monitor.txt");
+        //configTextField.setText("D:\\02_iotsendtool\\electmeter_monitor.txt");
         configTextField.setBounds(128, 38, 340, 21);
         frame.getContentPane().add(configTextField);
         configTextField.setColumns(10);
